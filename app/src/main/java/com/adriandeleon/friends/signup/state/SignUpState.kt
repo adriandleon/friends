@@ -2,5 +2,6 @@ package com.adriandeleon.friends.signup.state
 
 sealed class SignUpState {
 
-    object BadState : SignUpState()
+    object BadEmail : SignUpState()
+    object BadPassword : SignUpState()
 }
