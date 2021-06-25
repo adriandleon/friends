@@ -3,7 +3,6 @@ package com.adriandeleon.friends.signup
 import com.adriandeleon.friends.InstantTaskExecutor
 import com.adriandeleon.friends.signup.state.SignUpState
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -30,11 +29,32 @@ class CredentialsValidationTest {
         assertEquals(SignUpState.BadEmail, viewModel.signUpState.value)
     }
 
-    @Test
-    fun `invalid password`() {
+    @ParameterizedTest
+    @CsvSource(
+        "''",
+        "'     '",
+        "'s",
+        "'2A'",
+        "'aB%'",
+        "'12345678'",
+        "'abcdefgh'",
+        "'ABCDEFGH'",
+        "'&*#^%*#%'",
+        "'abcd5678'",
+        "'ABCD5678'",
+        "'&%#&5678'",
+        "'abcdEFGH'",
+        "'abcd%%#!'",
+        "'ABCD*&^%'",
+        "'123abcDEF'",
+        "'123abc*&^'",
+        "'123ABC*&^'",
+        "'abcABC*&^'",
+    )
+    fun `invalid password`(password: String) {
         val viewModel = SignUpViewModel()
 
-        viewModel.createAccount("anna@friends.com", "", ":about:")
+        viewModel.createAccount("anna@friends.com", password, ":about:")
 
         assertEquals(SignUpState.BadPassword, viewModel.signUpState.value)
     }
