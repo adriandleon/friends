@@ -12,7 +12,7 @@ class SignUpViewModel {
 
     fun createAccount(email: String, password: String, about: String) {
 
-        when (validate(email, password)) {
+        when (RegexCredentialsValidator().validate(email, password)) {
             is CredentialsValidationResult.InvalidEmail ->
                 _mutableSignUpState.value = SignUpState.BadEmail
             is CredentialsValidationResult.InvalidPassword ->
@@ -20,23 +20,26 @@ class SignUpViewModel {
         }
     }
 
-    private fun validate(
-        email: String,
-        password: String
-    ): CredentialsValidationResult {
-        val emailRegex =
-            """[a-zA-Z0-9+._%\-]{1,64}@[a-zA-Z0-9][a-zA-Z0-9\-]{1,64}(\.[a-zA-Z0-9][a-zA-Z0-9\-]{1,25})"""
-        val emailPattern = Pattern.compile(emailRegex)
+    class RegexCredentialsValidator {
 
-        val passwordRegex = """^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*+=\-]).{8,}$"""
-        val passwordPattern = Pattern.compile(passwordRegex)
+        fun validate(
+            email: String,
+            password: String
+        ): CredentialsValidationResult {
+            val emailRegex =
+                """[a-zA-Z0-9+._%\-]{1,64}@[a-zA-Z0-9][a-zA-Z0-9\-]{1,64}(\.[a-zA-Z0-9][a-zA-Z0-9\-]{1,25})"""
+            val emailPattern = Pattern.compile(emailRegex)
 
-        val result = if (!emailPattern.matcher(email).matches()) {
-            CredentialsValidationResult.InvalidEmail
-        } else if (!passwordPattern.matcher(password).matches()) {
-            CredentialsValidationResult.InvalidPassword
-        } else TODO()
-        return result
+            val passwordRegex = """^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*+=\-]).{8,}$"""
+            val passwordPattern = Pattern.compile(passwordRegex)
+
+            val result = if (!emailPattern.matcher(email).matches()) {
+                CredentialsValidationResult.InvalidEmail
+            } else if (!passwordPattern.matcher(password).matches()) {
+                CredentialsValidationResult.InvalidPassword
+            } else TODO()
+            return result
+        }
     }
 
     sealed class CredentialsValidationResult {
