@@ -21,13 +21,8 @@ class SignUpViewModel(private val credentialsValidator: RegexCredentialsValidato
                 _mutableSignUpState.value = SignUpState.BadPassword
             is CredentialsValidationResult.Valid -> {
                 val userId = email.takeWhile { it != '@' } + "Id"
-                if (email.contains("bob")) {
-                    val user = User(userId, email, about)
-                    _mutableSignUpState.value = SignUpState.SignUp(user)
-                } else {
-                    val user = User(userId, email, about)
-                    _mutableSignUpState.value = SignUpState.SignUp(user)
-                }
+                val user = User(userId, email, about)
+                _mutableSignUpState.value = SignUpState.SignUp(user)
             }
         }
     }
