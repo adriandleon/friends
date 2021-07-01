@@ -20,7 +20,27 @@ class SignUpViewModel(private val credentialsValidator: RegexCredentialsValidato
             is CredentialsValidationResult.InvalidPassword ->
                 _mutableSignUpState.value = SignUpState.BadPassword
             is CredentialsValidationResult.Valid ->
-                _mutableSignUpState.value = signUp(email, password, about)
+                _mutableSignUpState.value = userRepository.signUp(email, password, about)
+        }
+    }
+
+    private val userRepository = UserRepository(InMemoryUserCatalog())
+
+    class UserRepository(
+        private val userCatalog: InMemoryUserCatalog
+    ) {
+
+        fun signUp(
+            email: String,
+            password: String,
+            about: String
+        ): SignUpState {
+            return try {
+                val user = userCatalog.createUser(email, password, about)
+                SignUpState.SignUp(user)
+            } catch (duplicateAccount: DuplicateAccountException) {
+                SignUpState.DuplicateAccount
+            }
         }
     }
 
