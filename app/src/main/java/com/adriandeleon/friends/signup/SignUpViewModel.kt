@@ -42,13 +42,25 @@ class SignUpViewModel(private val credentialsValidator: RegexCredentialsValidato
         password: String,
         about: String
     ): User {
+        checkAccountExists(email)
+        val userId = createUserIdFor(email) + "Id"
+        val user = User(userId, email, about)
+        saveUser(password, user)
+        return user
+    }
+
+    private fun saveUser(password: String, user: User) {
+        usersForPassword.getOrPut(password, ::mutableListOf).add(user)
+    }
+
+    private fun createUserIdFor(email: String): String {
+        return email.takeWhile { it != '@' }
+    }
+
+    private fun checkAccountExists(email: String) {
         if (usersForPassword.values.flatten().any { it.email == email }) {
             throw DuplicateAccountException()
         }
-        val userId = email.takeWhile { it != '@' } + "Id"
-        val user = User(userId, email, about)
-        usersForPassword.getOrPut(password, ::mutableListOf).add(user)
-        return user
     }
 
     private val usersForPassword = mutableMapOf<String, MutableList<User>>()
