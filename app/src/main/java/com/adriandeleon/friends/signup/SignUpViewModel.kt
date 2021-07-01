@@ -12,8 +12,6 @@ class SignUpViewModel(private val credentialsValidator: RegexCredentialsValidato
     private val _mutableSignUpState = MutableLiveData<SignUpState>()
     val signUpState: LiveData<SignUpState> = _mutableSignUpState
 
-    private val usersForPassword = mutableMapOf<String, MutableList<User>>()
-
     fun createAccount(email: String, password: String, about: String) {
 
         when (credentialsValidator.validate(email, password)) {
@@ -40,9 +38,16 @@ class SignUpViewModel(private val credentialsValidator: RegexCredentialsValidato
         password: String,
         about: String
     ): User {
+        if (usersForPassword.values.flatten().any { it.email == email }) {
+            throw DuplicateAccountException()
+        }
         val userId = email.takeWhile { it != '@' } + "Id"
         val user = User(userId, email, about)
         usersForPassword.getOrPut(password, ::mutableListOf).add(user)
         return user
     }
+
+    private val usersForPassword = mutableMapOf<String, MutableList<User>>()
+
+    class DuplicateAccountException : Throwable()
 }
