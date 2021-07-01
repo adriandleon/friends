@@ -1,7 +1,9 @@
 package com.adriandeleon.friends.signup
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.domain.user.User
+import com.adriandeleon.friends.domain.user.UserRepository
 import com.adriandeleon.friends.domain.validation.RegexCredentialsValidator
 import com.adriandeleon.friends.signup.state.SignUpState
 import org.junit.jupiter.api.Assertions.*
@@ -14,7 +16,10 @@ class CreateAnAccountTest {
     @Test
     fun `account created`() {
         val maya = User("mayaId", "maya@friends.com", "About Maya")
-        val viewModel = SignUpViewModel(RegexCredentialsValidator())
+        val viewModel = SignUpViewModel(
+            RegexCredentialsValidator(),
+            UserRepository(InMemoryUserCatalog())
+        )
 
         viewModel.createAccount(maya.email, "MaY@2021", maya.about)
 
@@ -24,7 +29,10 @@ class CreateAnAccountTest {
     @Test
     fun `another account created`() {
         val bob = User("bobId", "bob@friends.com", "about Bob")
-        val viewModel = SignUpViewModel(RegexCredentialsValidator())
+        val viewModel = SignUpViewModel(
+            RegexCredentialsValidator(),
+            UserRepository(InMemoryUserCatalog())
+        )
 
         viewModel.createAccount(bob.email, "Ple@seSubscribe1", bob.about)
 
@@ -35,7 +43,10 @@ class CreateAnAccountTest {
     fun `create duplicate account`() {
         val anna = User("annaId", "anna@friends.com", "about Anna")
         val password = "AnNaPas$123"
-        val viewModel = SignUpViewModel(RegexCredentialsValidator()).also {
+        val viewModel = SignUpViewModel(
+            RegexCredentialsValidator(),
+            UserRepository(InMemoryUserCatalog())
+        ).also {
             it.createAccount(anna.email, password, anna.about)
         }
 
