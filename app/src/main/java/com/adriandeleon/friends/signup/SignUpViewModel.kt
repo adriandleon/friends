@@ -28,12 +28,21 @@ class SignUpViewModel(private val credentialsValidator: RegexCredentialsValidato
                 if (isKnown) {
                     _mutableSignUpState.value = SignUpState.DuplicateAccount
                 } else {
-                    val userId = email.takeWhile { it != '@' } + "Id"
-                    val user = User(userId, email, about)
-                    usersForPassword.getOrPut(password, ::mutableListOf).add(user)
+                    val user = createUser(email, password, about)
                     _mutableSignUpState.value = SignUpState.SignUp(user)
                 }
             }
         }
+    }
+
+    private fun createUser(
+        email: String,
+        password: String,
+        about: String
+    ): User {
+        val userId = email.takeWhile { it != '@' } + "Id"
+        val user = User(userId, email, about)
+        usersForPassword.getOrPut(password, ::mutableListOf).add(user)
+        return user
     }
 }
