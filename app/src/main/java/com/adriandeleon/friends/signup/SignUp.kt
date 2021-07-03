@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -15,18 +16,34 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.adriandeleon.friends.R
+import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
+import com.adriandeleon.friends.domain.user.UserRepository
+import com.adriandeleon.friends.domain.validation.RegexCredentialsValidator
+import com.adriandeleon.friends.signup.state.SignUpState
 import com.adriandeleon.friends.ui.theme.FriendsTheme
 
 @Composable
-fun SignUp() {
+fun SignUp(
+    onSignedUp: () -> Unit
+) {
+
+    val credentialsValidator = RegexCredentialsValidator()
+    val userRepository = UserRepository(InMemoryUserCatalog())
+    val signUpViewModel = SignUpViewModel(credentialsValidator, userRepository)
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    val signUpState by signUpViewModel.signUpState.observeAsState()
+
+    if (signUpState is SignUpState.SignUp) {
+        onSignedUp()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        var email by remember { mutableStateOf("") }
-        var password by remember { mutableStateOf("") }
-
         ScreenTitle(R.string.createAnAccount)
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -45,7 +62,9 @@ fun SignUp() {
 
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { }
+            onClick = {
+                signUpViewModel.createAccount(email, password, "")
+            }
         ) {
             Text(text = stringResource(id = R.string.signUp))
         }
@@ -127,6 +146,8 @@ private fun VisibilityToggle(
 @Preview(device = Devices.PIXEL_4, uiMode = UI_MODE_TYPE_NORMAL)
 fun SignUpPreview() {
     FriendsTheme {
-        SignUp()
+        SignUp {
+            // Navigate to timeline
+        }
     }
 }
