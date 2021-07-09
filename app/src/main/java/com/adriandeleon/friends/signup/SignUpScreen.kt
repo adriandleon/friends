@@ -1,6 +1,5 @@
 package com.adriandeleon.friends.signup
 
-import android.content.res.Configuration.UI_MODE_TYPE_NORMAL
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -12,24 +11,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.adriandeleon.friends.R
-import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
-import com.adriandeleon.friends.domain.user.UserRepository
-import com.adriandeleon.friends.domain.validation.RegexCredentialsValidator
 import com.adriandeleon.friends.signup.state.SignUpState
-import com.adriandeleon.friends.ui.theme.FriendsTheme
 
 @Composable
 fun SignUpScreen(
+    signUpViewModel: SignUpViewModel,
     onSignedUp: () -> Unit
 ) {
-
-    val credentialsValidator = RegexCredentialsValidator()
-    val userRepository = UserRepository(InMemoryUserCatalog())
-    val signUpViewModel = SignUpViewModel(credentialsValidator, userRepository)
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -58,7 +48,7 @@ fun SignUpScreen(
             value = password,
             onValueChange = { password = it }
         )
-        
+
         AboutField(
             value = about,
             onValueChange = { about = it }
@@ -161,14 +151,4 @@ fun AboutField(
         },
         onValueChange = onValueChange
     )
-}
-
-@Composable
-@Preview(device = Devices.PIXEL_4, uiMode = UI_MODE_TYPE_NORMAL)
-fun SignUpPreview() {
-    FriendsTheme {
-        SignUpScreen {
-            // Navigate to timeline
-        }
-    }
 }
