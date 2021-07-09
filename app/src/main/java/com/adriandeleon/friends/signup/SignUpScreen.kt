@@ -23,7 +23,7 @@ import com.adriandeleon.friends.signup.state.SignUpState
 import com.adriandeleon.friends.ui.theme.FriendsTheme
 
 @Composable
-fun SignUp(
+fun SignUpScreen(
     onSignedUp: () -> Unit
 ) {
 
@@ -167,7 +167,7 @@ fun AboutField(
 @Preview(device = Devices.PIXEL_4, uiMode = UI_MODE_TYPE_NORMAL)
 fun SignUpPreview() {
     FriendsTheme {
-        SignUp {
+        SignUpScreen {
             // Navigate to timeline
         }
     }
