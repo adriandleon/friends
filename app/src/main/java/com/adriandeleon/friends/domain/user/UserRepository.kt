@@ -1,10 +1,11 @@
 package com.adriandeleon.friends.domain.user
 
+import com.adriandeleon.friends.domain.exceptions.BackendException
 import com.adriandeleon.friends.domain.exceptions.DuplicateAccountException
 import com.adriandeleon.friends.signup.state.SignUpState
 
 class UserRepository(
-    private val userCatalog: InMemoryUserCatalog
+    private val userCatalog: UserCatalog
 ) {
 
     fun signUp(
@@ -17,6 +18,8 @@ class UserRepository(
             SignUpState.SignUp(user)
         } catch (duplicateAccount: DuplicateAccountException) {
             SignUpState.DuplicateAccount
+        } catch (backendException: BackendException) {
+            SignUpState.BackendError
         }
     }
 }
