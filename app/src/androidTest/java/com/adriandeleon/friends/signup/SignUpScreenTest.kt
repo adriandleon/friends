@@ -2,7 +2,9 @@ package com.adriandeleon.friends.signup
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
+import com.adriandeleon.friends.domain.exceptions.BackendException
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
+import com.adriandeleon.friends.domain.user.User
 import com.adriandeleon.friends.domain.user.UserCatalog
 import org.junit.After
 import org.junit.Before
@@ -50,6 +52,29 @@ class SignUpScreenTest {
             submit()
         } verify {
             duplicateAccountErrorIsShown()
+        }
+    }
+
+    @Test
+    fun displayBackendError() {
+        val replaceModule = module {
+            factory<UserCatalog>(override = true) { UnavailableUserCatalog() }
+        }
+        loadKoinModules(replaceModule)
+
+        launchSignUpScreen(signUpTestRule) {
+            typeEmail("joe@friends.com")
+            typePassword("Jo3PassWord#@")
+            submit()
+        } verify {
+            backendErrorIsShown()
+        }
+    }
+
+    class UnavailableUserCatalog : UserCatalog {
+
+        override fun createUser(email: String, password: String, about: String): User {
+            throw BackendException()
         }
     }
 
