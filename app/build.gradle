@@ -64,13 +64,13 @@ dependencies {
     implementation "androidx.compose.material:material:$composeVersion"
     implementation "androidx.compose.ui:ui-tooling:$composeVersion"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.0-rc01'
+    implementation 'androidx.activity:activity-compose:1.3.0-rc02'
     implementation "androidx.compose.runtime:runtime-livedata:$composeVersion"
-    implementation "androidx.navigation:navigation-compose:2.4.0-alpha04"
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha05"
     implementation "io.insert-koin:koin-core:$koinVersion"
     implementation "io.insert-koin:koin-android:$koinVersion"
 
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.0.0-rc01"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$composeVersion"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
