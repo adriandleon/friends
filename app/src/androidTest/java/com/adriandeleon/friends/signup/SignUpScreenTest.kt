@@ -19,9 +19,8 @@ class SignUpScreenTest {
     @get:Rule
     val signUpTestRule = createAndroidComposeRule<MainActivity>()
 
-    private val userCatalog = InMemoryUserCatalog()
     private val signUpModule = module {
-        factory<UserCatalog>(override = true) { userCatalog }
+        factory<UserCatalog>(override = true) { InMemoryUserCatalog() }
     }
 
     @Before
@@ -65,7 +64,9 @@ class SignUpScreenTest {
     fun displayDuplicateAccountError() {
         val signedUpUserEmail = "alice@friends.com"
         val signedUpUserPassword = "@l1cePass"
-        createUserWith(signedUpUserEmail, signedUpUserPassword)
+        replaceUserCatalogWith(InMemoryUserCatalog().apply {
+            createUser(signedUpUserEmail, signedUpUserPassword, "")
+        })
 
         launchSignUpScreen(signUpTestRule) {
             typeEmail(signedUpUserEmail)
@@ -78,7 +79,7 @@ class SignUpScreenTest {
 
     @Test
     fun displayBackendError() {
-        replaceUserCatalogWIth(UnavailableUserCatalog())
+        replaceUserCatalogWith(UnavailableUserCatalog())
 
         launchSignUpScreen(signUpTestRule) {
             typeEmail("joe@friends.com")
@@ -91,7 +92,7 @@ class SignUpScreenTest {
 
     @Test
     fun displayOfflineError() {
-        replaceUserCatalogWIth(OfflineUserCatalog())
+        replaceUserCatalogWith(OfflineUserCatalog())
 
         launchSignUpScreen(signUpTestRule) {
             typeEmail("joe@friends.com")
@@ -102,19 +103,16 @@ class SignUpScreenTest {
         }
     }
 
-    private fun replaceUserCatalogWIth(userCatalog: UserCatalog) {
+    @After
+    fun tearDown() {
+        replaceUserCatalogWith(InMemoryUserCatalog())
+    }
+
+    private fun replaceUserCatalogWith(userCatalog: UserCatalog) {
         val replaceModule = module {
             factory(override = true) { userCatalog }
         }
         loadKoinModules(replaceModule)
-    }
-
-    @After
-    fun tearDown() {
-        val resetModule = module {
-            single(override = true) { InMemoryUserCatalog() }
-        }
-        loadKoinModules(resetModule)
     }
 
     class UnavailableUserCatalog : UserCatalog {
@@ -128,9 +126,5 @@ class SignUpScreenTest {
         override fun createUser(email: String, password: String, about: String): User {
             throw ConnectionUnavailableException()
         }
-    }
-
-    private fun createUserWith(signedUpUserEmail: String, signedUpUserPassword: String) {
-        userCatalog.createUser(signedUpUserEmail, signedUpUserPassword, "irrelevant")
     }
 }
