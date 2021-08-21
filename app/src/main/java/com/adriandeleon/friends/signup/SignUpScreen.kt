@@ -1,7 +1,6 @@
 package com.adriandeleon.friends.signup
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
@@ -82,11 +81,20 @@ fun SignUpScreen(
 @Composable
 fun InfoMessage(@StringRes stringResource: Int) {
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.secondaryVariant)
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colors.error,
+        elevation = 4.dp
     ) {
-        Text(text = stringResource(id = stringResource))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text = stringResource(id = stringResource),
+                color = MaterialTheme.colors.onError
+            )
+        }
     }
 }
 
