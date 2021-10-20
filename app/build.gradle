@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    compileSdk 30
+    compileSdk 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.adriandeleon.friends"
         minSdk 24
-        targetSdk 30
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -56,7 +56,7 @@ android {
 dependencies {
 
     def junitVersion = "5.7.2"
-    def koinVersion = "3.0.1-beta-2"
+    def koinVersion = "3.1.2"
 
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'com.google.android.material:material:1.4.0'
@@ -64,9 +64,9 @@ dependencies {
     implementation "androidx.compose.material:material:$composeVersion"
     implementation "androidx.compose.ui:ui-tooling:$composeVersion"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.0-rc02'
+    implementation 'androidx.activity:activity-compose:1.4.0-rc01'
     implementation "androidx.compose.runtime:runtime-livedata:$composeVersion"
-    implementation "androidx.navigation:navigation-compose:2.4.0-alpha05"
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha10"
     implementation "io.insert-koin:koin-core:$koinVersion"
     implementation "io.insert-koin:koin-android:$koinVersion"
 
