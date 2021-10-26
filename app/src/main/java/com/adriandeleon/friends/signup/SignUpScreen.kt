@@ -52,6 +52,11 @@ fun SignUpScreen(
         }
     }
 
+    fun resetUiState() {
+        currentInfoMessage = 0
+        isInfoMessageShowing = false
+    }
+
     when (signUpState) {
         is SignUpState.SignUp -> onSignedUp()
         is SignUpState.BadEmail -> isBadEmail = true
@@ -93,6 +98,7 @@ fun SignUpScreen(
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
+                    resetUiState()
                     signUpViewModel.createAccount(email, password, about)
                 }
             ) {
