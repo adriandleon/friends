@@ -1,10 +1,7 @@
 package com.adriandeleon.friends.signup
 
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.adriandeleon.friends.MainActivity
 import com.adriandeleon.friends.R
@@ -22,13 +19,13 @@ class SignUpRobot(
 
     fun typeEmail(email: String) {
         val emailHint = rule.activity.getString(R.string.email)
-        rule.onNodeWithText(emailHint)
+        rule.onNodeWithTag(emailHint)
             .performTextInput(email)
     }
 
     fun typePassword(password: String) {
         val passwordHint = rule.activity.getString(R.string.password)
-        rule.onNodeWithText(passwordHint)
+        rule.onNodeWithTag(passwordHint)
             .performTextInput(password)
     }
 
@@ -83,5 +80,11 @@ class SignUpVerification(
         val badPassword = rule.activity.getString(R.string.badPasswordError)
         rule.onNodeWithText(badPassword)
             .assertIsDisplayed()
+    }
+
+    fun badEmailErrorIsNotShown() {
+        val badEmail = rule.activity.getString(R.string.badEmailError)
+        rule.onNodeWithText(badEmail)
+            .assertDoesNotExist()
     }
 }
