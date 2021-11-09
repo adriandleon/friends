@@ -25,7 +25,7 @@ class CreateAnAccountTest {
 
         viewModel.createAccount(maya.email, "MaY@2021", maya.about)
 
-        assertEquals(SignUpState.SignUp(maya), viewModel.signUpState.value)
+        assertEquals(SignUpState.SignedUp(maya), viewModel.signUpState.value)
     }
 
     @Test
@@ -34,7 +34,7 @@ class CreateAnAccountTest {
 
         viewModel.createAccount(bob.email, "Ple@seSubscribe1", bob.about)
 
-        assertEquals(SignUpState.SignUp(bob), viewModel.signUpState.value)
+        assertEquals(SignUpState.SignedUp(bob), viewModel.signUpState.value)
     }
 
     @Test

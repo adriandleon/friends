@@ -16,7 +16,7 @@ class UserRepository(
     ): SignUpState {
         return try {
             val user = userCatalog.createUser(email, password, about)
-            SignUpState.SignUp(user)
+            SignUpState.SignedUp(user)
         } catch (duplicateAccount: DuplicateAccountException) {
             SignUpState.DuplicateAccount
         } catch (backendException: BackendException) {
