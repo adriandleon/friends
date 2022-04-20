@@ -6,6 +6,7 @@ import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -80,7 +81,9 @@ private fun PasswordField(
     var isVisible by remember { mutableStateOf(false) }
 
     OutlinedTextField(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag(stringResource(id = R.string.password)),
         value = value,
         trailingIcon = {
             IconButton(onClick = {
