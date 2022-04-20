@@ -2,6 +2,7 @@
 buildscript {
     ext {
         composeVersion = '1.1.1'
+        junitVersion = '5.8.2'
     }
 }
 
