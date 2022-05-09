@@ -2,6 +2,7 @@ package com.adriandeleon.friends.signup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.adriandeleon.friends.domain.user.User
 import com.adriandeleon.friends.domain.validation.CredentialsValidationResult
 import com.adriandeleon.friends.domain.validation.RegexCredentialsValidator
 import com.adriandeleon.friends.signup.state.SignUpState
@@ -21,6 +22,10 @@ class SignUpViewModel(private val credentialsValidator: RegexCredentialsValidato
                 _mutableSignUpState.value = SignUpState.BadEmail
             is CredentialsValidationResult.InvalidPassword ->
                 _mutableSignUpState.value = SignUpState.BadPassword
+            CredentialsValidationResult.Valid -> {
+                val user = User("mayaId", "maya@friends.com", "about Maya")
+                _mutableSignUpState.value = SignUpState.SignedUp(user)
+            }
         }
     }
 }
