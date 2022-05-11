@@ -41,11 +41,16 @@ class SignUpViewModel(private val credentialsValidator: RegexCredentialsValidato
         password: String,
         about: String
     ): User {
+        if (usersForPassword.values.flatten().any { it.email == email }) {
+            throw DuplicateAccountException()
+        }
         val userId = email.takeWhile { it != '@' } + "Id"
         val user = User(userId, email, about)
         usersForPassword.getOrPut(password, ::mutableListOf).add(user)
         return user
     }
+
+    class DuplicateAccountException : Throwable()
 
     private val usersForPassword = mutableMapOf<String, MutableList<User>>()
 }
