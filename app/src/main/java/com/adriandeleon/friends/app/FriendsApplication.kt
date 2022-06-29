@@ -8,7 +8,7 @@ class FriendsApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-
+            modules(applicationModule)
         }
     }
 }
