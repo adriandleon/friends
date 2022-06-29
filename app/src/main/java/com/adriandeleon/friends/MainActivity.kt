@@ -8,7 +8,7 @@ import androidx.compose.material.Surface
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.adriandeleon.friends.signup.SignUp
+import com.adriandeleon.friends.signup.SignUpScreen
 import com.adriandeleon.friends.timeline.Timeline
 import com.adriandeleon.friends.ui.theme.FriendsTheme
 
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     NavHost(navController = navController, startDestination = SIGN_UP) {
                         composable(SIGN_UP) {
-                            SignUp(onSignedUp = { navController.navigate(TIMELINE) })
+                            SignUpScreen(onSignedUp = { navController.navigate(TIMELINE) })
                         }
                         composable(TIMELINE) {
                             Timeline()

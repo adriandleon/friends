@@ -20,7 +20,7 @@ import com.adriandeleon.friends.domain.validation.RegexCredentialsValidator
 import com.adriandeleon.friends.signup.state.SignUpState
 
 @Composable
-fun SignUp(onSignedUp: () -> Unit) {
+fun SignUpScreen(onSignedUp: () -> Unit) {
 
     val credentialsValidator = RegexCredentialsValidator()
     val userRepository = UserRepository(InMemoryUserCatalog())
