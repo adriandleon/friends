@@ -14,17 +14,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.adriandeleon.friends.R
-import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
-import com.adriandeleon.friends.domain.user.UserRepository
-import com.adriandeleon.friends.domain.validation.RegexCredentialsValidator
 import com.adriandeleon.friends.signup.state.SignUpState
 
 @Composable
-fun SignUpScreen(onSignedUp: () -> Unit) {
-
-    val credentialsValidator = RegexCredentialsValidator()
-    val userRepository = UserRepository(InMemoryUserCatalog())
-    val signUpViewModel = SignUpViewModel(credentialsValidator, userRepository)
+fun SignUpScreen(
+    signUpViewModel: SignUpViewModel,
+    onSignedUp: () -> Unit
+) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
