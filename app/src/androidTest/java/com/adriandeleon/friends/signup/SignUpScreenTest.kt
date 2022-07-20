@@ -3,6 +3,7 @@ package com.adriandeleon.friends.signup
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
+import com.adriandeleon.friends.domain.user.UserCatalog
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -18,7 +19,7 @@ class SignUpScreenTest {
     private val userCatalog = InMemoryUserCatalog()
 
     private val signUpModule = module {
-        factory(override = true) { userCatalog }
+        factory<UserCatalog>(override = true) { userCatalog }
     }
 
     @Before
@@ -51,6 +52,7 @@ class SignUpScreenTest {
             duplicateAccountErrorIsShown()
         }
     }
+
 
     @After
     fun tearDown() {
