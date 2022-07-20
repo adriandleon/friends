@@ -1,6 +1,7 @@
 package com.adriandeleon.friends.domain.user
 
 import com.adriandeleon.friends.domain.exceptions.BackendException
+import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.exceptions.DuplicateAccountException
 import com.adriandeleon.friends.signup.state.SignUpState
 
@@ -20,6 +21,8 @@ class UserRepository(
             SignUpState.DuplicateAccount
         } catch (backendException: BackendException) {
             SignUpState.BackendError
+        } catch (offlineException: ConnectionUnavailableException) {
+            SignUpState.Offline
         }
     }
 }
