@@ -70,4 +70,10 @@ class SignUpVerification(
         rule.onNodeWithText(offlineError)
             .assertIsDisplayed()
     }
+
+    fun badEmailErrorIsShown() {
+        val badEmail = rule.activity.getString(R.string.badEmailError)
+        rule.onNodeWithText(badEmail)
+            .assertIsDisplayed()
+    }
 }
