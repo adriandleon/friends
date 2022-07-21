@@ -3,6 +3,7 @@ package com.adriandeleon.friends.signup
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
 import com.adriandeleon.friends.domain.exceptions.BackendException
+import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.domain.user.User
 import com.adriandeleon.friends.domain.user.UserCatalog
@@ -71,9 +72,19 @@ class SignUpScreenTest {
         }
     }
 
-    class UnavailableUserCatalog : UserCatalog {
-        override fun createUser(email: String, password: String, about: String): User {
-            throw BackendException()
+    @Test
+    fun displayOfflineError() {
+        val replaceModule = module {
+            factory<UserCatalog>(override = true) { OfflineUserCatalog() }
+        }
+        loadKoinModules(replaceModule)
+
+        launchSignUpScreen(signUpTestRule) {
+            typeEmail("joe@friends.com")
+            typePassword("Jo3@PassWord#@")
+            submit()
+        } verify {
+            offlineErrorIsShown()
         }
     }
 
@@ -83,6 +94,18 @@ class SignUpScreenTest {
             single(override = true) { InMemoryUserCatalog() }
         }
         loadKoinModules(resetModule)
+    }
+
+    class UnavailableUserCatalog : UserCatalog {
+        override fun createUser(email: String, password: String, about: String): User {
+            throw BackendException()
+        }
+    }
+
+    class OfflineUserCatalog : UserCatalog {
+        override fun createUser(email: String, password: String, about: String): User {
+            throw ConnectionUnavailableException()
+        }
     }
 
     private fun createUserWith(
