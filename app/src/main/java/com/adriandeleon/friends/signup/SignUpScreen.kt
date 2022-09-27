@@ -32,6 +32,16 @@ fun SignUpScreen(
 
     if (signUpState is SignUpState.SignedUp) {
         onSignedUp()
+    } else if (signUpState is SignUpState.BadEmail) {
+        isBadEmail = true
+    } else if (signUpState is SignUpState.BadPassword) {
+        isBadPassword = true
+    } else if (signUpState is SignUpState.DuplicateAccount) {
+        InfoMessage(R.string.duplicateAccountError)
+    } else if (signUpState is SignUpState.BackendError) {
+        InfoMessage(stringResource = R.string.createAccountError)
+    } else if (signUpState is SignUpState.Offline) {
+        InfoMessage(stringResource = R.string.offlineError)
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -65,17 +75,6 @@ fun SignUpScreen(
             ) {
                 Text(text = stringResource(id = R.string.signUp))
             }
-        }
-        if (signUpState is SignUpState.BadEmail) {
-            isBadEmail = true
-        } else if (signUpState is SignUpState.BadPassword) {
-            isBadPassword = true
-        } else if (signUpState is SignUpState.DuplicateAccount) {
-            InfoMessage(R.string.duplicateAccountError)
-        } else if (signUpState is SignUpState.BackendError) {
-            InfoMessage(stringResource = R.string.createAccountError)
-        } else if (signUpState is SignUpState.Offline) {
-            InfoMessage(stringResource = R.string.offlineError)
         }
     }
 }
