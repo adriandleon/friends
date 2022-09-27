@@ -19,10 +19,8 @@ class SignUpScreenTest {
     @get:Rule
     val signUpTestRule = createAndroidComposeRule<MainActivity>()
 
-    private val userCatalog = InMemoryUserCatalog()
-
     private val signUpModule = module {
-        factory<UserCatalog>(override = true) { userCatalog }
+        factory<UserCatalog>(override = true) { InMemoryUserCatalog() }
     }
 
     @Before
@@ -64,11 +62,14 @@ class SignUpScreenTest {
 
     @Test
     fun displayDuplicateAccountError() {
-        launchSignUpScreen(signUpTestRule) {
-            val signedUpUserEmail = "alice@friends.com"
-            val signedUpUserPassword = "@l1cePass"
-            createUserWith(signedUpUserEmail, signedUpUserPassword)
+        val signedUpUserEmail = "alice@friends.com"
+        val signedUpUserPassword = "@l1cePass"
 
+        replaceUserCatalogWith(InMemoryUserCatalog().apply {
+            createUser(signedUpUserEmail, signedUpUserPassword, "")
+        })
+
+        launchSignUpScreen(signUpTestRule) {
             typeEmail(signedUpUserEmail)
             typePassword(signedUpUserPassword)
             submit()
@@ -103,17 +104,14 @@ class SignUpScreenTest {
         }
     }
 
+    @After
+    fun tearDown() {
+        replaceUserCatalogWith(InMemoryUserCatalog())
+    }
+
     private fun replaceUserCatalogWith(userCatalog: UserCatalog) {
         val replaceModule = module { factory(override = true) { userCatalog } }
         loadKoinModules(replaceModule)
-    }
-
-    @After
-    fun tearDown() {
-        val resetModule = module {
-            single(override = true) { InMemoryUserCatalog() }
-        }
-        loadKoinModules(resetModule)
     }
 
     class UnavailableUserCatalog : UserCatalog {
@@ -126,12 +124,5 @@ class SignUpScreenTest {
         override fun createUser(email: String, password: String, about: String): User {
             throw ConnectionUnavailableException()
         }
-    }
-
-    private fun createUserWith(
-        signedUpUserEmail: String,
-        signedUpUserPassword: String
-    ) {
-        userCatalog.createUser(signedUpUserEmail, signedUpUserPassword, "")
     }
 }
