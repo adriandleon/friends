@@ -26,8 +26,12 @@ class SignUpViewModel(
                 _mutableSignUpState.value = SignUpState.BadEmail
             is CredentialsValidationResult.InvalidPassword ->
                 _mutableSignUpState.value = SignUpState.BadPassword
-            is CredentialsValidationResult.Valid ->
-                _mutableSignUpState.value = userRepository.signUp(email, password, about)
+            is CredentialsValidationResult.Valid -> proceedWithSignUp(email, password, about)
         }
+    }
+
+    private fun proceedWithSignUp(email: String, password: String, about: String) {
+        _mutableSignUpState.value = SignUpState.Loading
+        _mutableSignUpState.value = userRepository.signUp(email, password, about)
     }
 }
