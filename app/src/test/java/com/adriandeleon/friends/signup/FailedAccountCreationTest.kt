@@ -6,13 +6,14 @@ import com.adriandeleon.friends.domain.user.User
 import com.adriandeleon.friends.domain.user.UserCatalog
 import com.adriandeleon.friends.domain.user.UserRepository
 import com.adriandeleon.friends.signup.state.SignUpState
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class FailedAccountCreationTest {
 
     @Test
-    fun `backend error`() {
+    fun `backend error`() = runBlocking {
         val userRepository = UserRepository(UnavailableUserCatalog())
 
         val result = userRepository.signUp(":email:", ":password:", ":about:")
@@ -21,7 +22,7 @@ class FailedAccountCreationTest {
     }
 
     @Test
-    fun `offline error`() {
+    fun `offline error`() = runBlocking {
         val userRepository = UserRepository(OfflineUserCatalog())
         val result = userRepository.signUp(":email:", ":password:", ":about:")
         assertEquals(SignUpState.Offline, result)
@@ -29,14 +30,14 @@ class FailedAccountCreationTest {
 
     class OfflineUserCatalog : UserCatalog {
 
-        override fun createUser(email: String, password: String, about: String): User {
+        override suspend fun createUser(email: String, password: String, about: String): User {
             throw ConnectionUnavailableException()
         }
     }
 
     class UnavailableUserCatalog : UserCatalog {
 
-        override fun createUser(email: String, password: String, about: String): User {
+        override suspend fun createUser(email: String, password: String, about: String): User {
             throw BackendException()
         }
     }
