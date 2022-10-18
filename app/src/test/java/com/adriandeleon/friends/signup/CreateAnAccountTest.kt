@@ -1,7 +1,7 @@
 package com.adriandeleon.friends.signup
 
 import com.adriandeleon.friends.InstantTaskExecutor
-import com.adriandeleon.friends.app.TestDispatcher
+import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.domain.user.User
 import com.adriandeleon.friends.domain.user.UserRepository
@@ -18,7 +18,7 @@ class CreateAnAccountTest {
     private val viewModel = SignUpViewModel(
         credentialsValidator,
         UserRepository(InMemoryUserCatalog()),
-        TestDispatcher()
+        TestDispatchers()
     )
 
     @Test
@@ -45,7 +45,7 @@ class CreateAnAccountTest {
         val password = "AnNaPas$123"
         val usersForPassword = mutableMapOf(password to mutableListOf(anna))
         val userRepository = UserRepository(InMemoryUserCatalog(usersForPassword))
-        val viewModel = SignUpViewModel(credentialsValidator, userRepository, TestDispatcher())
+        val viewModel = SignUpViewModel(credentialsValidator, userRepository, TestDispatchers())
 
         viewModel.createAccount(anna.email, password, anna.about)
 

@@ -1,7 +1,7 @@
 package com.adriandeleon.friends.signup
 
 import com.adriandeleon.friends.InstantTaskExecutor
-import com.adriandeleon.friends.app.TestDispatcher
+import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.domain.user.User
 import com.adriandeleon.friends.domain.user.UserRepository
@@ -18,7 +18,7 @@ class RenderingSignedUpStateTest {
     private val viewModel = SignUpViewModel(
         RegexCredentialsValidator(),
         userRepository,
-        TestDispatcher()
+        TestDispatchers()
     )
     private val tom = User("tomId", "tom@friends.com", "about Tom")
 
