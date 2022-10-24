@@ -7,6 +7,7 @@ import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.domain.user.User
 import com.adriandeleon.friends.domain.user.UserCatalog
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -124,6 +125,25 @@ class SignedUpScreenTest {
             submit()
         } verify {
             offlineErrorIsShown()
+        }
+    }
+
+    @Test
+    fun displayBlockingLoading() {
+        replaceUserCatalogWith(DelayingUserCatalog())
+        launchSignUpScreen(signUpTestRule) {
+            typeEmail("caly@friends.com")
+            typePassword("C@lyP1ss#")
+            submit()
+        } verify {
+            blockingLoadingIsShown()
+        }
+    }
+
+    class DelayingUserCatalog : UserCatalog {
+        override suspend fun createUser(email: String, password: String, about: String): User {
+            delay(100)
+            return User("someId", email, about)
         }
     }
 
