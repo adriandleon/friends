@@ -2,11 +2,12 @@ package com.adriandeleon.friends.timeline
 
 import com.adriandeleon.friends.InstantTaskExecutor
 import com.adriandeleon.friends.domain.post.Post
-import com.adriandeleon.friends.domain.user.User
+import com.adriandeleon.friends.infrastructure.builder.UserBuilder.Companion.aUser
 import com.adriandeleon.friends.timeline.state.TimelineState
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import java.util.*
 
 @ExtendWith(InstantTaskExecutor::class)
 class LoadPostsTest {
@@ -22,7 +23,7 @@ class LoadPostsTest {
 
     @Test
     fun `posts available`() {
-        val tim = User("timId", "tim@friends.com", "About Tim")
+        val tim = aUser().withId("timId").build()
         val timPosts = listOf(Post("postId", tim.id, "post text", 1L))
         val viewModel = TimelineViewModel()
 
