@@ -3,6 +3,7 @@ package com.adriandeleon.friends.timeline
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.adriandeleon.friends.domain.post.Post
+import com.adriandeleon.friends.domain.user.Following
 import com.adriandeleon.friends.timeline.state.TimelineState
 
 class TimelineViewModel {
@@ -31,8 +32,4 @@ class TimelineViewModel {
         mutableTimelineState.value = TimelineState.Posts(postsForSara)
     }
 
-    data class Following(
-        val userId: String,
-        val followedId: String
-    )
 }
