@@ -28,8 +28,7 @@ class TimelineViewModel {
             .filter { it.userId == userId }
             .map { it.followedId }
 
-        val postsForSara = availablePosts.filter { userIds.contains(it.userId) }
-        mutableTimelineState.value = TimelineState.Posts(postsForSara)
+        val postsForUser = availablePosts.filter { userIds.contains(it.userId) }
+        mutableTimelineState.value = TimelineState.Posts(postsForUser)
     }
-
 }
