@@ -2,7 +2,7 @@ package com.adriandeleon.friends.timeline
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.adriandeleon.friends.domain.post.Post
+import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.user.Following
 import com.adriandeleon.friends.timeline.state.TimelineState
 
@@ -25,18 +25,5 @@ class TimelineViewModel {
         return followings
             .filter { it.userId == userId }
             .map { it.followedId }
-    }
-
-    class InMemoryPostCatalog {
-        fun postsFor(userIds: List<String>): List<Post> {
-            val availablePosts = listOf(
-                Post("postId", "timId", "post text", 1L),
-                Post("post2", "lucyId", "post 2", 2L),
-                Post("post1", "lucyId", "post 1", 1L),
-                Post("post4", "saraId", "post 4", 4L),
-                Post("post3", "saraId", "post 3", 3L),
-            )
-            return availablePosts.filter { userIds.contains(it.userId) }
-        }
     }
 }
