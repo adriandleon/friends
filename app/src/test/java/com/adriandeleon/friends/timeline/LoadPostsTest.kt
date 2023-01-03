@@ -3,6 +3,7 @@ package com.adriandeleon.friends.timeline
 import com.adriandeleon.friends.InstantTaskExecutor
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.Post
+import com.adriandeleon.friends.domain.user.Following
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.infrastructure.builder.UserBuilder.Companion.aUser
 import com.adriandeleon.friends.timeline.state.TimelineState
@@ -63,7 +64,11 @@ class LoadPostsTest {
             Post("post1", lucy.id, "post 1", 1L),
         )
         val viewModel = TimelineViewModel(
-            InMemoryUserCatalog(), InMemoryPostCatalog(
+            InMemoryUserCatalog(
+                followings = listOf(
+                    Following(anna.id, lucy.id)
+                )
+            ), InMemoryPostCatalog(
                 listOf(
                     Post("postId", "timId", "post text", 1L),
                     Post("post2", "lucyId", "post 2", 2L),
@@ -92,7 +97,11 @@ class LoadPostsTest {
             Post("post3", sara.id, "post 3", 3L),
         )
         val viewModel = TimelineViewModel(
-            InMemoryUserCatalog(), InMemoryPostCatalog(
+            InMemoryUserCatalog(
+                followings = listOf(
+                    Following(sara.id, lucy.id)
+                )
+            ), InMemoryPostCatalog(
                 listOf(
                     Post("postId", "timId", "post text", 1L),
                     Post("post2", "lucyId", "post 2", 2L),
