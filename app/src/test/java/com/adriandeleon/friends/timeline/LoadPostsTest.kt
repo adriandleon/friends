@@ -1,6 +1,7 @@
 package com.adriandeleon.friends.timeline
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.infrastructure.builder.UserBuilder.Companion.aUser
@@ -15,7 +16,7 @@ class LoadPostsTest {
 
     @Test
     fun `no posts available`() {
-        val viewModel = TimelineViewModel(InMemoryUserCatalog())
+        val viewModel = TimelineViewModel(InMemoryUserCatalog(), InMemoryPostCatalog())
 
         viewModel.timelineFor("tomId")
 
@@ -26,7 +27,7 @@ class LoadPostsTest {
     fun `posts available`() {
         val tim = aUser().withId("timId").build()
         val timPosts = listOf(Post("postId", tim.id, "post text", 1L))
-        val viewModel = TimelineViewModel(InMemoryUserCatalog())
+        val viewModel = TimelineViewModel(InMemoryUserCatalog(), InMemoryPostCatalog())
 
         viewModel.timelineFor(tim.id)
 
@@ -41,7 +42,7 @@ class LoadPostsTest {
             Post("post2", lucy.id, "post 2", 2L),
             Post("post1", lucy.id, "post 1", 1L),
         )
-        val viewModel = TimelineViewModel(InMemoryUserCatalog())
+        val viewModel = TimelineViewModel(InMemoryUserCatalog(), InMemoryPostCatalog())
 
         viewModel.timelineFor(anna.id)
 
@@ -60,7 +61,7 @@ class LoadPostsTest {
             Post("post4", sara.id, "post 4", 4L),
             Post("post3", sara.id, "post 3", 3L),
         )
-        val viewModel = TimelineViewModel(InMemoryUserCatalog())
+        val viewModel = TimelineViewModel(InMemoryUserCatalog(), InMemoryPostCatalog())
 
         viewModel.timelineFor(sara.id)
 
