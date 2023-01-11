@@ -145,6 +145,10 @@ class SignedUpScreenTest {
             delay(100)
             return User("someId", email, about)
         }
+
+        override fun followedBy(userId: String): List<String> {
+            TODO("Not yet implemented")
+        }
     }
 
     @After
@@ -164,11 +168,19 @@ class SignedUpScreenTest {
             throw BackendException()
         }
 
+        override fun followedBy(userId: String): List<String> {
+            TODO("Not yet implemented")
+        }
+
     }
 
     class OfflineUserCatalog : UserCatalog {
         override suspend fun createUser(email: String, password: String, about: String): User {
             throw ConnectionUnavailableException()
+        }
+
+        override fun followedBy(userId: String): List<String> {
+            TODO("Not yet implemented")
         }
     }
 }
