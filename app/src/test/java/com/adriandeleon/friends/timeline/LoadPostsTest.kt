@@ -15,18 +15,30 @@ import java.util.*
 @ExtendWith(InstantTaskExecutor::class)
 class LoadPostsTest {
 
+    private val lucy = aUser().withId("lucyId").build()
+    private val sara = aUser().withId("saraId").build()
+    private val anna = aUser().withId("annaId").build()
+    private val tim = aUser().withId("timId").build()
+
+    private val timPosts = listOf(
+        Post("postId", tim.id, "post text", 1L)
+    )
+    private val lucyPosts = listOf(
+        Post("post2", lucy.id, "post 2", 2L),
+        Post("post1", lucy.id, "post 1", 1L),
+    )
+    private val saraPosts = listOf(
+        Post("post4", sara.id, "post 4", 4L),
+        Post("post3", sara.id, "post 3", 3L),
+    )
+
+    private val availablePosts = timPosts + lucyPosts + saraPosts
+
     @Test
     fun `no posts available`() {
         val viewModel = TimelineViewModel(
-            InMemoryUserCatalog(), InMemoryPostCatalog(
-                listOf(
-                    Post("postId", "timId", "post text", 1L),
-                    Post("post2", "lucyId", "post 2", 2L),
-                    Post("post1", "lucyId", "post 1", 1L),
-                    Post("post4", "saraId", "post 4", 4L),
-                    Post("post3", "saraId", "post 3", 3L),
-                )
-            )
+            InMemoryUserCatalog(),
+            InMemoryPostCatalog(availablePosts)
         )
 
         viewModel.timelineFor("tomId")
@@ -36,18 +48,9 @@ class LoadPostsTest {
 
     @Test
     fun `posts available`() {
-        val tim = aUser().withId("timId").build()
-        val timPosts = listOf(Post("postId", tim.id, "post text", 1L))
         val viewModel = TimelineViewModel(
-            InMemoryUserCatalog(), InMemoryPostCatalog(
-                listOf(
-                    Post("postId", "timId", "post text", 1L),
-                    Post("post2", "lucyId", "post 2", 2L),
-                    Post("post1", "lucyId", "post 1", 1L),
-                    Post("post4", "saraId", "post 4", 4L),
-                    Post("post3", "saraId", "post 3", 3L),
-                )
-            )
+            InMemoryUserCatalog(),
+            InMemoryPostCatalog(availablePosts)
         )
 
         viewModel.timelineFor(tim.id)
@@ -57,26 +60,13 @@ class LoadPostsTest {
 
     @Test
     fun `posts from friends`() {
-        val anna = aUser().withId("annaId").build()
-        val lucy = aUser().withId("lucyId").build()
-        val lucyPosts = listOf(
-            Post("post2", lucy.id, "post 2", 2L),
-            Post("post1", lucy.id, "post 1", 1L),
-        )
         val viewModel = TimelineViewModel(
             InMemoryUserCatalog(
                 followings = listOf(
                     Following(anna.id, lucy.id)
                 )
-            ), InMemoryPostCatalog(
-                listOf(
-                    Post("postId", "timId", "post text", 1L),
-                    Post("post2", "lucyId", "post 2", 2L),
-                    Post("post1", "lucyId", "post 1", 1L),
-                    Post("post4", "saraId", "post 4", 4L),
-                    Post("post3", "saraId", "post 3", 3L),
-                )
-            )
+            ),
+            InMemoryPostCatalog(availablePosts)
         )
 
         viewModel.timelineFor(anna.id)
@@ -86,30 +76,13 @@ class LoadPostsTest {
 
     @Test
     fun `posts from friends along own`() {
-        val lucy = aUser().withId("lucyId").build()
-        val lucyPosts = listOf(
-            Post("post2", lucy.id, "post 2", 2L),
-            Post("post1", lucy.id, "post 1", 1L),
-        )
-        val sara = aUser().withId("saraId").build()
-        val saraPosts = listOf(
-            Post("post4", sara.id, "post 4", 4L),
-            Post("post3", sara.id, "post 3", 3L),
-        )
         val viewModel = TimelineViewModel(
             InMemoryUserCatalog(
                 followings = listOf(
                     Following(sara.id, lucy.id)
                 )
-            ), InMemoryPostCatalog(
-                listOf(
-                    Post("postId", "timId", "post text", 1L),
-                    Post("post2", "lucyId", "post 2", 2L),
-                    Post("post1", "lucyId", "post 1", 1L),
-                    Post("post4", "saraId", "post 4", 4L),
-                    Post("post3", "saraId", "post 3", 3L),
-                )
-            )
+            ),
+            InMemoryPostCatalog(availablePosts)
         )
 
         viewModel.timelineFor(sara.id)
