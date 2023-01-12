@@ -3,6 +3,7 @@ package com.adriandeleon.friends.timeline
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.adriandeleon.friends.domain.exceptions.BackendException
+import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.post.PostCatalog
 import com.adriandeleon.friends.domain.user.UserCatalog
 import com.adriandeleon.friends.timeline.state.TimelineState
@@ -22,6 +23,8 @@ class TimelineViewModel(
             mutableTimelineState.value = TimelineState.Posts(postsForUser)
         } catch (backendException: BackendException) {
             mutableTimelineState.value = TimelineState.BackendError
+        } catch (offlineException: ConnectionUnavailableException) {
+            mutableTimelineState.value = TimelineState.OfflineError
         }
     }
 }
