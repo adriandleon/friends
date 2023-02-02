@@ -5,6 +5,7 @@ import com.adriandeleon.friends.domain.exceptions.BackendException
 import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.domain.post.PostCatalog
+import com.adriandeleon.friends.domain.timeline.TimelineRepository
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.timeline.state.TimelineState
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -18,7 +19,9 @@ class FailTimelineLoadingTest {
     fun `backend error`() {
         val userCatalog = InMemoryUserCatalog()
         val postCatalog = UnavailablePostCatalog()
-        val viewModel = TimelineViewModel(userCatalog, postCatalog)
+        val viewModel = TimelineViewModel(
+            TimelineRepository(userCatalog, postCatalog)
+        )
 
         viewModel.timelineFor(":irrelevant:")
 
@@ -29,7 +32,9 @@ class FailTimelineLoadingTest {
     fun `offline error`() {
         val userCatalog = InMemoryUserCatalog()
         val postCatalog = OfflinePostCatalog()
-        val viewModel = TimelineViewModel(userCatalog, postCatalog)
+        val viewModel = TimelineViewModel(
+            TimelineRepository(userCatalog, postCatalog)
+        )
 
         viewModel.timelineFor(":irrelevant:")
 
