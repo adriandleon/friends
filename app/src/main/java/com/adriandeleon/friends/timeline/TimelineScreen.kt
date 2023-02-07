@@ -10,7 +10,7 @@ import com.adriandeleon.friends.R
 import com.adriandeleon.friends.ui.theme.FriendsTheme
 
 @Composable
-fun Timeline() {
+fun TimelineScreen() {
     Text(text = stringResource(id = R.string.timeline))
 }
 
@@ -18,7 +18,7 @@ fun Timeline() {
 @Preview(device = Devices.PIXEL_4, uiMode = Configuration.UI_MODE_TYPE_NORMAL)
 fun TimelinePreview() {
     FriendsTheme {
-        Timeline()
+        TimelineScreen()
     }
 }
 
