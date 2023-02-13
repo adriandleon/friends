@@ -8,7 +8,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -22,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.adriandeleon.friends.R
 import com.adriandeleon.friends.signup.state.SignUpScreenState
 import com.adriandeleon.friends.signup.state.SignUpState
+import com.adriandeleon.friends.ui.composables.ScreenTitle
 
 @Composable
 fun SignUpScreen(
@@ -155,19 +155,6 @@ fun InfoMessage(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun ScreenTitle(@StringRes resourceId: Int) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = stringResource(id = resourceId),
-            style = typography.h4
-        )
     }
 }
 
