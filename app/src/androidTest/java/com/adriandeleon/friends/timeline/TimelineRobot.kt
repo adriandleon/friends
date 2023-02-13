@@ -6,6 +6,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.adriandeleon.friends.MainActivity
 import com.adriandeleon.friends.R
+import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.signup.launchSignUpScreen
 
 typealias MainActivityRule = AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
@@ -38,5 +39,12 @@ class TimelineVerificationRobot(private val rule: MainActivityRule) {
         val emptyTimelineMessage = rule.activity.getString(R.string.emptyTimelineMessage)
         rule.onNodeWithText(emptyTimelineMessage)
             .assertIsDisplayed()
+    }
+
+    fun postsAreDisplayed(vararg posts: Post) {
+        posts.forEach { post ->
+            rule.onNodeWithText(post.postText)
+                .assertIsDisplayed()
+        }
     }
 }
