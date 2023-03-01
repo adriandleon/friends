@@ -2,7 +2,9 @@ package com.adriandeleon.friends.timeline
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.adriandeleon.friends.MainActivity
 import com.adriandeleon.friends.R
@@ -26,10 +28,16 @@ fun launchTimelineFor(
 }
 
 class TimelineRobot(
-    private val testRule: MainActivityRule
+    private val rule: MainActivityRule
 ) {
+    fun tapOnCreateNewPost() {
+        val createNewPost = rule.activity.getString(R.string.createNewPost)
+        rule.onNodeWithTag(createNewPost)
+            .performClick()
+    }
+
     infix fun verify(block: TimelineVerificationRobot.() -> Unit): TimelineVerificationRobot {
-        return TimelineVerificationRobot(testRule).apply(block)
+        return TimelineVerificationRobot(rule).apply(block)
     }
 }
 
@@ -46,5 +54,11 @@ class TimelineVerificationRobot(private val rule: MainActivityRule) {
             rule.onNodeWithText(post.postText)
                 .assertIsDisplayed()
         }
+    }
+
+    fun newPostComposerIsDisplayed() {
+        val createNewPost = rule.activity.getString(R.string.createNewPost)
+        rule.onNodeWithText(createNewPost)
+            .assertIsDisplayed()
     }
 }
