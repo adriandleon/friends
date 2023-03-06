@@ -1,6 +1,7 @@
 package com.adriandeleon.friends.timeline
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.domain.timeline.TimelineRepository
@@ -40,7 +41,8 @@ class LoadTimelineTest {
         val userCatalog = InMemoryUserCatalog()
         val postCatalog = InMemoryPostCatalog(availablePosts)
         val viewModel = TimelineViewModel(
-            TimelineRepository(userCatalog, postCatalog)
+            TimelineRepository(userCatalog, postCatalog),
+            TestDispatchers()
         )
 
         viewModel.timelineFor("tomId")
@@ -53,7 +55,8 @@ class LoadTimelineTest {
         val userCatalog = InMemoryUserCatalog()
         val postCatalog = InMemoryPostCatalog(availablePosts)
         val viewModel = TimelineViewModel(
-            TimelineRepository(userCatalog, postCatalog)
+            TimelineRepository(userCatalog, postCatalog),
+            TestDispatchers()
         )
 
         viewModel.timelineFor(tim.id)
@@ -70,7 +73,8 @@ class LoadTimelineTest {
         )
         val postCatalog = InMemoryPostCatalog(availablePosts)
         val viewModel = TimelineViewModel(
-            TimelineRepository(userCatalog, postCatalog)
+            TimelineRepository(userCatalog, postCatalog),
+            TestDispatchers()
         )
 
         viewModel.timelineFor(anna.id)
@@ -87,7 +91,8 @@ class LoadTimelineTest {
         )
         val postCatalog = InMemoryPostCatalog(availablePosts)
         val viewModel = TimelineViewModel(
-            TimelineRepository(userCatalog, postCatalog)
+            TimelineRepository(userCatalog, postCatalog),
+            TestDispatchers()
         )
 
         viewModel.timelineFor(sara.id)

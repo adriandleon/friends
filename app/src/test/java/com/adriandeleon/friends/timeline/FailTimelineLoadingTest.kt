@@ -1,6 +1,7 @@
 package com.adriandeleon.friends.timeline
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.exceptions.BackendException
 import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.post.Post
@@ -20,7 +21,8 @@ class FailTimelineLoadingTest {
         val userCatalog = InMemoryUserCatalog()
         val postCatalog = UnavailablePostCatalog()
         val viewModel = TimelineViewModel(
-            TimelineRepository(userCatalog, postCatalog)
+            TimelineRepository(userCatalog, postCatalog),
+            TestDispatchers()
         )
 
         viewModel.timelineFor(":irrelevant:")
@@ -33,7 +35,8 @@ class FailTimelineLoadingTest {
         val userCatalog = InMemoryUserCatalog()
         val postCatalog = OfflinePostCatalog()
         val viewModel = TimelineViewModel(
-            TimelineRepository(userCatalog, postCatalog)
+            TimelineRepository(userCatalog, postCatalog),
+            TestDispatchers()
         )
 
         viewModel.timelineFor(":irrelevant:")

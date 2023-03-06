@@ -1,6 +1,7 @@
 package com.adriandeleon.friends.timeline
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.timeline.TimelineRepository
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
@@ -16,7 +17,7 @@ class RenderingTimelineStatesTest {
         InMemoryUserCatalog(),
         InMemoryPostCatalog()
     )
-    private val viewModel = TimelineViewModel(timelineRepository)
+    private val viewModel = TimelineViewModel(timelineRepository, TestDispatchers())
 
     @Test
     fun `timeline state exposed to an observer`() {
