@@ -8,6 +8,7 @@ import com.adriandeleon.friends.app.CoroutineDispatchers
 import com.adriandeleon.friends.domain.timeline.TimelineRepository
 import com.adriandeleon.friends.timeline.state.TimelineState
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TimelineViewModel(
     private val timelineRepository: TimelineRepository,
@@ -20,8 +21,9 @@ class TimelineViewModel(
     fun timelineFor(userId: String) {
         viewModelScope.launch {
             mutableTimelineState.value = TimelineState.Loading
-            val result = timelineRepository.getTimelineFor(userId)
-            mutableTimelineState.value = result
+            mutableTimelineState.value = withContext(dispatchers.background) {
+                timelineRepository.getTimelineFor(userId)
+            }
         }
     }
 }
