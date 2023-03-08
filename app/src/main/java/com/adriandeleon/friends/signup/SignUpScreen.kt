@@ -5,12 +5,10 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -21,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.adriandeleon.friends.R
 import com.adriandeleon.friends.signup.state.SignUpScreenState
 import com.adriandeleon.friends.signup.state.SignUpState
+import com.adriandeleon.friends.ui.composables.BlockingLoading
 import com.adriandeleon.friends.ui.composables.ScreenTitle
 
 @Composable
@@ -91,34 +90,6 @@ fun SignUpScreen(
         )
 
         BlockingLoading(screenState.isLoading)
-    }
-}
-
-@OptIn(ExperimentalAnimationApi::class)
-@Composable
-fun BlockingLoading(
-    isShowing: Boolean
-) {
-    AnimatedVisibility(
-        visible = isShowing,
-        enter = fadeIn(
-            initialAlpha = 0f,
-            animationSpec = tween(durationMillis = 150, easing = FastOutLinearInEasing)
-        ),
-        exit = fadeOut(
-            targetAlpha = 0f,
-            animationSpec = tween(durationMillis = 250, easing = LinearOutSlowInEasing)
-        )
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .testTag(stringResource(id = R.string.loading))
-                .background(MaterialTheme.colors.surface.copy(alpha = 0.7f)),
-            contentAlignment = Alignment.Center,
-        ) {
-            CircularProgressIndicator()
-        }
     }
 }
 
