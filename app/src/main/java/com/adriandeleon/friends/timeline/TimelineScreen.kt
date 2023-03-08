@@ -23,13 +23,16 @@ import androidx.compose.ui.unit.dp
 import com.adriandeleon.friends.R
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.timeline.state.TimelineState
+import com.adriandeleon.friends.ui.composables.BlockingLoading
 import com.adriandeleon.friends.ui.composables.ScreenTitle
 
 class TimelineScreenState {
     var posts by mutableStateOf(emptyList<Post>())
     var loadedUserId by mutableStateOf("")
+    var isLoading by mutableStateOf(false)
 
     fun updatePosts(newPosts: List<Post>) {
+        isLoading = false
         this.posts = newPosts
     }
 
@@ -40,6 +43,10 @@ class TimelineScreenState {
         } else {
             false
         }
+    }
+
+    fun showLoading() {
+        isLoading = true
     }
 }
 
@@ -56,35 +63,41 @@ fun TimelineScreen(
         timelineViewModel.timelineFor(userId)
     }
 
-    if (timelineState is TimelineState.Posts) {
-        val posts = (timelineState as TimelineState.Posts).posts
-        screenState.updatePosts(posts)
+    when (timelineState) {
+        is TimelineState.Loading -> screenState.showLoading()
+        is TimelineState.Posts -> {
+            val posts = (timelineState as TimelineState.Posts).posts
+            screenState.updatePosts(posts)
+        }
     }
 
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxSize()
-    ) {
-        ScreenTitle(resourceId = R.string.timeline)
-        Spacer(modifier = Modifier.height(16.dp))
-        Box(modifier = Modifier.fillMaxSize()) {
-            PostsList(
-                posts = screenState.posts,
-                modifier = Modifier.align(Alignment.TopCenter)
-            )
-            FloatingActionButton(
-                onClick = onCreateNewPost,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .testTag(stringResource(id = R.string.createNewPost))
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(id = R.string.createNewPost)
+    Box {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize()
+        ) {
+            ScreenTitle(resourceId = R.string.timeline)
+            Spacer(modifier = Modifier.height(16.dp))
+            Box(modifier = Modifier.fillMaxSize()) {
+                PostsList(
+                    posts = screenState.posts,
+                    modifier = Modifier.align(Alignment.TopCenter)
                 )
+                FloatingActionButton(
+                    onClick = onCreateNewPost,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .testTag(stringResource(id = R.string.createNewPost))
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = stringResource(id = R.string.createNewPost)
+                    )
+                }
             }
         }
+        BlockingLoading(isShowing = screenState.isLoading)
     }
 }
 
