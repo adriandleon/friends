@@ -3,6 +3,7 @@ package com.adriandeleon.friends.timeline
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
 import com.adriandeleon.friends.domain.exceptions.BackendException
+import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.domain.post.PostCatalog
@@ -73,6 +74,16 @@ class TimelineScreenTest {
         }
     }
 
+    @Test
+    fun showsOfflineError() {
+        replacePostCatalogWith(OfflinePostCatalog())
+        launchTimelineFor("offline.error@friends.com", "s0mEPa$123", timelineTestRule) {
+            // no operation
+        } verify {
+            offlineErrorIsDisplayed()
+        }
+    }
+
     @After
     fun tearDown() {
         replacePostCatalogWith(InMemoryPostCatalog())
@@ -85,16 +96,22 @@ class TimelineScreenTest {
         loadKoinModules(replaceModule)
     }
 
+    class DelayingPostsCatalog : PostCatalog {
+        override suspend fun postsFor(userIds: List<String>): List<Post> {
+            delay(3000)
+            return emptyList()
+        }
+    }
+
     class UnavailablePostCatalog : PostCatalog {
         override suspend fun postsFor(userIds: List<String>): List<Post> {
             throw BackendException()
         }
     }
 
-    class DelayingPostsCatalog : PostCatalog {
+    class OfflinePostCatalog : PostCatalog {
         override suspend fun postsFor(userIds: List<String>): List<Post> {
-            delay(3000)
-            return emptyList()
+            throw ConnectionUnavailableException()
         }
     }
 }
