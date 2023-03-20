@@ -2,6 +2,7 @@ package com.adriandeleon.friends.timeline
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
+import com.adriandeleon.friends.domain.exceptions.BackendException
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.domain.post.PostCatalog
@@ -62,6 +63,16 @@ class TimelineScreenTest {
         }
     }
 
+    @Test
+    fun showsBackendError() {
+        replacePostCatalogWith(UnavailablePostCatalog())
+        launchTimelineFor("backend.error@friends.com", "s0mEPa$123", timelineTestRule) {
+            // no operation
+        } verify {
+            backendErrorIsDisplayed()
+        }
+    }
+
     @After
     fun tearDown() {
         replacePostCatalogWith(InMemoryPostCatalog())
@@ -72,6 +83,12 @@ class TimelineScreenTest {
             factory(override = true) { postsCatalog }
         }
         loadKoinModules(replaceModule)
+    }
+
+    class UnavailablePostCatalog : PostCatalog {
+        override suspend fun postsFor(userIds: List<String>): List<Post> {
+            throw BackendException()
+        }
     }
 
     class DelayingPostsCatalog : PostCatalog {

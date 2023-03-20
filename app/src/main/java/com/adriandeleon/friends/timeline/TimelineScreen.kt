@@ -1,5 +1,6 @@
 package com.adriandeleon.friends.timeline
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,12 +25,20 @@ import com.adriandeleon.friends.R
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.timeline.state.TimelineState
 import com.adriandeleon.friends.ui.composables.BlockingLoading
+import com.adriandeleon.friends.ui.composables.InfoMessage
 import com.adriandeleon.friends.ui.composables.ScreenTitle
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class TimelineScreenState {
+class TimelineScreenState(
+    private val coroutineScope: CoroutineScope
+) {
     var posts by mutableStateOf(emptyList<Post>())
     var loadedUserId by mutableStateOf("")
     var isLoading by mutableStateOf(false)
+    var isInfoMessageShowing by mutableStateOf(false)
+    var currentInfoMessage by mutableStateOf(0)
 
     fun updatePosts(newPosts: List<Post>) {
         isLoading = false
@@ -48,6 +57,18 @@ class TimelineScreenState {
     fun showLoading() {
         isLoading = true
     }
+
+    fun showInfoMessage(@StringRes infoMessage: Int) = coroutineScope.launch {
+        isLoading = false
+        if (currentInfoMessage != infoMessage) {
+            currentInfoMessage = infoMessage
+            if (!isInfoMessageShowing) {
+                isInfoMessageShowing = true
+                delay(1500)
+                isInfoMessageShowing = false
+            }
+        }
+    }
 }
 
 @Composable
@@ -56,7 +77,8 @@ fun TimelineScreen(
     timelineViewModel: TimelineViewModel,
     onCreateNewPost: () -> Unit
 ) {
-    val screenState by remember { mutableStateOf(TimelineScreenState()) }
+    val coroutineScope = rememberCoroutineScope()
+    val screenState by remember { mutableStateOf(TimelineScreenState(coroutineScope)) }
     val timelineState by timelineViewModel.timelineState.observeAsState()
 
     if (screenState.shouldLoadPostsFor(userId)) {
@@ -68,6 +90,9 @@ fun TimelineScreen(
         is TimelineState.Posts -> {
             val posts = (timelineState as TimelineState.Posts).posts
             screenState.updatePosts(posts)
+        }
+        is TimelineState.BackendError -> {
+            screenState.showInfoMessage(R.string.fetchingTimelineError)
         }
     }
 
@@ -97,6 +122,12 @@ fun TimelineScreen(
                 }
             }
         }
+
+        InfoMessage(
+            isVisible = screenState.isInfoMessageShowing,
+            stringResource = screenState.currentInfoMessage
+        )
+
         BlockingLoading(isShowing = screenState.isLoading)
     }
 }
