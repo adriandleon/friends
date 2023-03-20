@@ -1,6 +1,5 @@
 package com.adriandeleon.friends.timeline
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,53 +22,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.adriandeleon.friends.R
 import com.adriandeleon.friends.domain.post.Post
+import com.adriandeleon.friends.timeline.state.TimelineScreenState
 import com.adriandeleon.friends.timeline.state.TimelineState
 import com.adriandeleon.friends.ui.composables.BlockingLoading
 import com.adriandeleon.friends.ui.composables.InfoMessage
 import com.adriandeleon.friends.ui.composables.ScreenTitle
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-
-class TimelineScreenState(
-    private val coroutineScope: CoroutineScope
-) {
-    var posts by mutableStateOf(emptyList<Post>())
-    var loadedUserId by mutableStateOf("")
-    var isLoading by mutableStateOf(false)
-    var isInfoMessageShowing by mutableStateOf(false)
-    var currentInfoMessage by mutableStateOf(0)
-
-    fun updatePosts(newPosts: List<Post>) {
-        isLoading = false
-        this.posts = newPosts
-    }
-
-    fun shouldLoadPostsFor(userId: String): Boolean {
-        return if (loadedUserId != userId) {
-            loadedUserId = userId
-            true
-        } else {
-            false
-        }
-    }
-
-    fun showLoading() {
-        isLoading = true
-    }
-
-    fun showInfoMessage(@StringRes infoMessage: Int) = coroutineScope.launch {
-        isLoading = false
-        if (currentInfoMessage != infoMessage) {
-            currentInfoMessage = infoMessage
-            if (!isInfoMessageShowing) {
-                isInfoMessageShowing = true
-                delay(1500)
-                isInfoMessageShowing = false
-            }
-        }
-    }
-}
 
 @Composable
 fun TimelineScreen(
