@@ -1,10 +1,5 @@
 package com.adriandeleon.friends.signup
 
-import androidx.annotation.StringRes
-import androidx.compose.animation.*
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -20,6 +15,7 @@ import com.adriandeleon.friends.R
 import com.adriandeleon.friends.signup.state.SignUpScreenState
 import com.adriandeleon.friends.signup.state.SignUpState
 import com.adriandeleon.friends.ui.composables.BlockingLoading
+import com.adriandeleon.friends.ui.composables.InfoMessage
 import com.adriandeleon.friends.ui.composables.ScreenTitle
 
 @Composable
@@ -90,42 +86,6 @@ fun SignUpScreen(
         )
 
         BlockingLoading(screenState.isLoading)
-    }
-}
-
-@OptIn(ExperimentalAnimationApi::class)
-@Composable
-fun InfoMessage(
-    isVisible: Boolean,
-    @StringRes stringResource: Int,
-) {
-    AnimatedVisibility(
-        visible = isVisible,
-        enter = slideInVertically(
-            initialOffsetY = { fullHeight -> -fullHeight },
-            animationSpec = tween(durationMillis = 150, easing = FastOutLinearInEasing)
-        ),
-        exit = fadeOut(
-            targetAlpha = 0f,
-            animationSpec = tween(durationMillis = 250, easing = LinearOutSlowInEasing)
-        )
-    ) {
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colors.error,
-            elevation = 4.dp
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = stringResource(id = stringResource),
-                    color = MaterialTheme.colors.onError
-                )
-            }
-        }
     }
 }
 
