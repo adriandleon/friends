@@ -7,8 +7,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.adriandeleon.friends.postcomposer.CreateNewPostScreen
 import com.adriandeleon.friends.signup.SignUpScreen
 import com.adriandeleon.friends.signup.SignUpViewModel
