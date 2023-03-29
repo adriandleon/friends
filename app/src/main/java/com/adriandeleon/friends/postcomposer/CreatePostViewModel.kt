@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.domain.user.InMemoryUserData
-import com.adriandeleon.friends.infrastructure.ControllableClock
+import com.adriandeleon.friends.infrastructure.Clock
 import com.adriandeleon.friends.postcomposer.state.CreatePostState
 
 class CreatePostViewModel(
     private val userData: InMemoryUserData,
-    private val clock: ControllableClock
+    private val clock: Clock
 ) {
 
     private val mutablePostState = MutableLiveData<CreatePostState>()
