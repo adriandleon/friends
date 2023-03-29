@@ -19,7 +19,7 @@ class CreateAPostTest {
     fun `a post is created`() {
 
         val postText = "First post"
-        val post = Post("postId", userId, postText, 1L)
+        val post = Post("postId1", userId, postText, 1L)
         val viewModel = CreatePostViewModel(userData, ControllableClock(1L))
 
         viewModel.createPost(postText)
