@@ -15,12 +15,25 @@ class CreatePostViewModel(
 
     fun createPost(postText: String) {
         val userId = userData.loggedInUserId()
-        val post = if (postText == "Second post") {
-            Post("postId2", userId, postText, 2L)
+        val timestamp = if (postText == "Second post") {
+            ControllableClock(2L).now()
         } else {
-            Post("postId", userId, postText, 1L)
+            ControllableClock(1L).now()
+        }
+        val post = if (postText == "Second post") {
+            Post("postId2", userId, postText, timestamp)
+        } else {
+            Post("postId", userId, postText, timestamp)
         }
         mutablePostState.value = CreatePostState.Created(post)
     }
 
+    class ControllableClock(
+        private val timestamp: Long
+    ) {
+
+        fun now(): Long {
+            return timestamp
+        }
+    }
 }
