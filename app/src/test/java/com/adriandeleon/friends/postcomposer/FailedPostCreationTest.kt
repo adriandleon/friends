@@ -1,6 +1,7 @@
 package com.adriandeleon.friends.postcomposer
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.PostRepository
 import com.adriandeleon.friends.domain.user.InMemoryUserData
 import com.adriandeleon.friends.infrastructure.ControllableClock
@@ -20,7 +21,12 @@ class FailedPostCreationTest {
         val clock = ControllableClock(1L)
         val idGenerator = ControllableIdGenerator("postId1")
         val viewModel = CreatePostViewModel(
-            PostRepository(userData, clock, idGenerator)
+            PostRepository(
+                userData, InMemoryPostCatalog(
+                    idGenerator = idGenerator,
+                    clock = clock
+                )
+            )
         )
         viewModel.createPost(":backend:")
 
@@ -33,7 +39,12 @@ class FailedPostCreationTest {
         val clock = ControllableClock(1L)
         val idGenerator = ControllableIdGenerator("postId1")
         val viewModel = CreatePostViewModel(
-            PostRepository(userData, clock, idGenerator)
+            PostRepository(
+                userData, InMemoryPostCatalog(
+                    idGenerator = idGenerator,
+                    clock = clock
+                )
+            )
         )
 
         viewModel.createPost(":offline:")
