@@ -2,6 +2,7 @@ package com.adriandeleon.friends.postcomposer
 
 import com.adriandeleon.friends.InstantTaskExecutor
 import com.adriandeleon.friends.domain.post.Post
+import com.adriandeleon.friends.domain.post.PostRepository
 import com.adriandeleon.friends.domain.user.InMemoryUserData
 import com.adriandeleon.friends.infrastructure.ControllableClock
 import com.adriandeleon.friends.infrastructure.ControllableIdGenerator
@@ -21,10 +22,10 @@ class CreateAPostTest {
 
         val postText = "First post"
         val post = Post("postId1", userId, postText, 1L)
+        val clock = ControllableClock(1L)
+        val idGenerator = ControllableIdGenerator("postId1")
         val viewModel = CreatePostViewModel(
-            userData,
-            ControllableClock(1L),
-            ControllableIdGenerator("postId1")
+            PostRepository(userData, clock, idGenerator)
         )
 
         viewModel.createPost(postText)
@@ -36,10 +37,10 @@ class CreateAPostTest {
     fun `another post created`() {
         val postText = "Second post"
         val anotherPost = Post("postId2", userId, postText, 2L)
+        val clock = ControllableClock(2L)
+        val idGenerator = ControllableIdGenerator("postId2")
         val viewModel = CreatePostViewModel(
-            userData,
-            ControllableClock(2L),
-            ControllableIdGenerator("postId2")
+            PostRepository(userData, clock, idGenerator)
         )
 
         viewModel.createPost(postText)

@@ -3,23 +3,15 @@ package com.adriandeleon.friends.postcomposer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.adriandeleon.friends.domain.post.PostRepository
-import com.adriandeleon.friends.domain.user.InMemoryUserData
-import com.adriandeleon.friends.infrastructure.Clock
-import com.adriandeleon.friends.infrastructure.IdGenerator
 import com.adriandeleon.friends.postcomposer.state.CreatePostState
 
-class CreatePostViewModel(
-    private val userData: InMemoryUserData,
-    private val clock: Clock,
-    private val idGenerator: IdGenerator
-) {
+class CreatePostViewModel(private val postRepository: PostRepository) {
 
     private val mutablePostState = MutableLiveData<CreatePostState>()
     val postState: LiveData<CreatePostState> = mutablePostState
 
     fun createPost(postText: String) {
-        val result = PostRepository(userData, clock, idGenerator)
-            .createNewPost(postText)
+        val result = postRepository.createNewPost(postText)
         mutablePostState.value = result
     }
 }
