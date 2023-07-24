@@ -1,5 +1,7 @@
 package com.adriandeleon.friends.domain.post
 
+import com.adriandeleon.friends.domain.exceptions.BackendException
+import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.infrastructure.Clock
 import com.adriandeleon.friends.infrastructure.IdGenerator
 import com.adriandeleon.friends.infrastructure.SystemClock
@@ -12,7 +14,14 @@ class InMemoryPostCatalog(
 ) : PostCatalog {
 
     override fun addPost(userId: String, postText: String): Post {
-        TODO("Not yet implemented")
+        if (postText == ":backend:") {
+            throw BackendException()
+        } else if (postText == ":offline:") {
+            throw ConnectionUnavailableException()
+        }
+        val timestamp = clock.now()
+        val postId = idGenerator.next()
+        return Post(postId, userId, postText, timestamp)
     }
 
     override suspend fun postsFor(userIds: List<String>): List<Post> {
