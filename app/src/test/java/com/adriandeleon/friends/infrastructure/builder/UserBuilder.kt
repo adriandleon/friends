@@ -1,7 +1,7 @@
 package com.adriandeleon.friends.infrastructure.builder
 
 import com.adriandeleon.friends.domain.user.User
-import java.util.*
+import java.util.UUID
 
 class UserBuilder {
     private var userId = UUID.randomUUID().toString()

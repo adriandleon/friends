@@ -7,7 +7,8 @@ import java.util.regex.Pattern
 class UUIDGeneratorTest {
 
     private companion object {
-        private const val UUID_REGEX = """[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"""
+        private const val UUID_REGEX =
+            """[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"""
     }
 
     @Test
