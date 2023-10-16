@@ -54,7 +54,6 @@ android {
         test {
             java.srcDir sharedTestDirectory
         }
-
         androidTest {
             java.srcDir sharedTestDirectory
         }
