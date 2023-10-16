@@ -8,6 +8,7 @@ import com.adriandeleon.friends.app.CoroutineDispatchers
 import com.adriandeleon.friends.domain.post.PostRepository
 import com.adriandeleon.friends.postcomposer.state.CreatePostState
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CreatePostViewModel(
     private val postRepository: PostRepository,
@@ -19,7 +20,9 @@ class CreatePostViewModel(
 
     fun createPost(postText: String) {
         viewModelScope.launch {
-            val result = postRepository.createNewPost(postText)
+            val result = withContext(dispatchers.background) {
+                postRepository.createNewPost(postText)
+            }
             mutablePostState.value = result
         }
     }
