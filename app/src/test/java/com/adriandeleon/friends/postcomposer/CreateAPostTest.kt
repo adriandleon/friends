@@ -1,6 +1,7 @@
 package com.adriandeleon.friends.postcomposer
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.domain.post.PostRepository
@@ -27,11 +28,13 @@ class CreateAPostTest {
         val idGenerator = ControllableIdGenerator("postId1")
         val viewModel = CreatePostViewModel(
             PostRepository(
-                userData, InMemoryPostCatalog(
+                userData,
+                InMemoryPostCatalog(
                     idGenerator = idGenerator,
                     clock = clock
-                )
-            )
+                ),
+            ),
+            dispatchers = TestDispatchers()
         )
 
         viewModel.createPost(postText)
@@ -51,7 +54,8 @@ class CreateAPostTest {
                     idGenerator = idGenerator,
                     clock = clock
                 )
-            )
+            ),
+            dispatchers = TestDispatchers()
         )
 
         viewModel.createPost(postText)

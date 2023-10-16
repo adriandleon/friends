@@ -1,6 +1,7 @@
 package com.adriandeleon.friends.postcomposer
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.post.OfflinePostCatalog
 import com.adriandeleon.friends.domain.post.PostRepository
 import com.adriandeleon.friends.domain.post.UnavailablePostCatalog
@@ -20,7 +21,8 @@ class FailedPostCreationTest {
             PostRepository(
                 InMemoryUserData("userId"),
                 UnavailablePostCatalog()
-            )
+            ),
+            dispatchers = TestDispatchers()
         )
         viewModel.createPost(":backend:")
 
@@ -33,7 +35,8 @@ class FailedPostCreationTest {
             PostRepository(
                 InMemoryUserData("userId"),
                 OfflinePostCatalog()
-            )
+            ),
+            dispatchers = TestDispatchers()
         )
 
         viewModel.createPost(":offline:")
