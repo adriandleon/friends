@@ -1,7 +1,15 @@
 package com.adriandeleon.friends.timeline
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,8 +19,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +39,8 @@ import com.adriandeleon.friends.timeline.state.TimelineState
 import com.adriandeleon.friends.ui.composables.BlockingLoading
 import com.adriandeleon.friends.ui.composables.InfoMessage
 import com.adriandeleon.friends.ui.composables.ScreenTitle
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun TimelineScreen(
@@ -48,10 +62,13 @@ fun TimelineScreen(
             val posts = (timelineState as TimelineState.Posts).posts
             screenState.updatePosts(posts)
         }
+
         is TimelineState.BackendError ->
             screenState.showInfoMessage(R.string.fetchingTimelineError)
+
         is TimelineState.OfflineError ->
             screenState.showInfoMessage(R.string.offlineError)
+
         else -> {}
     }
 
@@ -126,11 +143,31 @@ fun PostItem(
                 shape = RoundedCornerShape(16.dp)
             )
     ) {
-        Text(
-            text = post.postText,
-            modifier = modifier.padding(16.dp)
-        )
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = post.userId)
+                Text(text = post.timestamp.toDateTime())
+            }
+
+            Text(
+                text = post.postText,
+                style = MaterialTheme.typography.h5,
+                modifier = modifier.padding(16.dp)
+            )
+        }
     }
+}
+
+private fun Long.toDateTime(): String {
+    val dateTimeFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US)
+    return dateTimeFormat.format(this)
 }
 
 @Preview
