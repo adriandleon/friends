@@ -37,6 +37,12 @@ class CreateNewPostRobot(private val rule: MainActivityRule) {
             .performClick()
     }
 
+    fun tapOnCreateNewPost() {
+        val createNewPost = rule.activity.getString(R.string.createNewPost)
+        rule.onNodeWithTag(createNewPost)
+            .performClick()
+    }
+
     infix fun verify(
         block: CreateNewPostVerificationRobot.() -> Unit
     ): CreateNewPostVerificationRobot {
