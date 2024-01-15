@@ -1,9 +1,10 @@
 package com.adriandeleon.friends.postcomposer
 
-import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onLast
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -55,8 +56,10 @@ class CreateNewPostRobot(private val rule: MainActivityRule) {
 class CreateNewPostVerificationRobot(private val rule: MainActivityRule) {
 
     fun newlyCreatedPostIsShown(userId: String, dateTime: String, postContent: String) {
-        rule.onAllNodesWithText(userId).assertCountEquals(2)
-        rule.onAllNodesWithText(dateTime).assertCountEquals(2)
+        rule.onAllNodesWithText(userId).onFirst().assertIsDisplayed()
+        rule.onAllNodesWithText(userId).onLast().assertIsDisplayed()
+        rule.onAllNodesWithText(dateTime).onFirst().assertIsDisplayed()
+        rule.onAllNodesWithText(dateTime).onLast().assertIsDisplayed()
         rule.onNodeWithText(postContent).assertIsDisplayed()
     }
 }
