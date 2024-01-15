@@ -24,16 +24,30 @@ import com.adriandeleon.friends.R
 import com.adriandeleon.friends.postcomposer.state.CreatePostState
 import com.adriandeleon.friends.ui.composables.ScreenTitle
 
+class CreateNewPostScreenState {
+    var isPostSubmitted by mutableStateOf(false)
+
+    fun setPostSubmitted() {
+        isPostSubmitted = true
+    }
+}
+
 @Composable
 fun CreateNewPostScreen(
     createPostViewModel: CreatePostViewModel,
     onPostCreated: () -> Unit,
 ) {
+
+    val screenState by remember { mutableStateOf(CreateNewPostScreenState()) }
     var postText by remember { mutableStateOf("") }
     val createPostState by createPostViewModel.postState.observeAsState()
 
     when (createPostState) {
-        is CreatePostState.Created -> onPostCreated()
+        is CreatePostState.Created -> {
+            if (screenState.isPostSubmitted) {
+                onPostCreated()
+            }
+        }
         else -> {}
     }
 
@@ -42,7 +56,10 @@ fun CreateNewPostScreen(
         Box(modifier = Modifier.fillMaxSize()) {
             PostComposer(postText) { postText = it }
             FloatingActionButton(
-                onClick = { createPostViewModel.createPost(postText) },
+                onClick = {
+                    screenState.setPostSubmitted()
+                    createPostViewModel.createPost(postText)
+                },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .testTag(stringResource(id = R.string.submitPost))
