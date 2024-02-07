@@ -3,6 +3,7 @@ package com.adriandeleon.friends.postcomposer
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
+import com.adriandeleon.friends.domain.post.OfflinePostCatalog
 import com.adriandeleon.friends.domain.post.PostCatalog
 import com.adriandeleon.friends.domain.post.UnavailablePostCatalog
 import com.adriandeleon.friends.domain.user.InMemoryUserData
@@ -61,6 +62,18 @@ class CreateNewPostScreenTest {
             submit()
         } verify {
             backendErrorIsDisplayed()
+        }
+    }
+
+    @Test
+    fun showsOfflineError() {
+        replacePostCatalogWith(OfflinePostCatalog())
+
+        launchPostComposerFor("mia@friends.com", createNewPostRule) {
+            typePost("My New Post")
+            submit()
+        } verify {
+            offlineErrorIsDisplayed()
         }
     }
 

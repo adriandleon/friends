@@ -68,4 +68,10 @@ class CreateNewPostVerificationRobot(private val rule: MainActivityRule) {
         rule.onNodeWithText(errorMessage)
             .assertIsDisplayed()
     }
+
+    fun offlineErrorIsDisplayed() {
+        val offlineError = rule.activity.getString(R.string.offlineError)
+        rule.onNodeWithText(offlineError)
+            .assertIsDisplayed()
+    }
 }

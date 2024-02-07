@@ -62,9 +62,10 @@ fun CreateNewPostScreen(
                 onPostCreated()
             }
         }
-        is CreatePostState.BackendError -> {
+        is CreatePostState.BackendError ->
             screenState.showMessage(R.string.creatingPostError)
-        }
+        is CreatePostState.Offline ->
+            screenState.showMessage(R.string.offlineError)
         else -> {
 
         }
