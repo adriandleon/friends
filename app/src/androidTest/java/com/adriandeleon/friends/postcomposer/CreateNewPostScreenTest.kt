@@ -18,14 +18,14 @@ class CreateNewPostScreenTest {
     @get:Rule
     val createNewPostRule = createAndroidComposeRule<MainActivity>()
 
-    private val timestampWithTimezoneOffset = Calendar.getInstance()
+    private val timestamp = Calendar.getInstance()
         .also { it.set(2023, 11, 27, 18, 30) }
         .timeInMillis
 
     @Test
     fun createNewPost() {
         replaceUserDataWith(InMemoryUserData("userId"))
-        replacePostCatalogWith(InMemoryPostCatalog(clock = ControllableClock(timestampWithTimezoneOffset)))
+        replacePostCatalogWith(InMemoryPostCatalog(clock = ControllableClock(timestamp)))
 
         launchPostComposerFor("user@friends.com", createNewPostRule) {
             typePost("My New Post")
@@ -38,7 +38,7 @@ class CreateNewPostScreenTest {
     @Test
     fun createMultiplePosts() {
         replaceUserDataWith(InMemoryUserData("userId"))
-        replacePostCatalogWith(InMemoryPostCatalog(clock = ControllableClock(timestampWithTimezoneOffset)))
+        replacePostCatalogWith(InMemoryPostCatalog(clock = ControllableClock(timestamp)))
 
         launchPostComposerFor("user@friends.com", createNewPostRule) {
             typePost("My first post")
