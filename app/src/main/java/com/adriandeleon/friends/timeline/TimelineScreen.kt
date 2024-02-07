@@ -39,8 +39,7 @@ import com.adriandeleon.friends.timeline.state.TimelineState
 import com.adriandeleon.friends.ui.composables.BlockingLoading
 import com.adriandeleon.friends.ui.composables.InfoMessage
 import com.adriandeleon.friends.ui.composables.ScreenTitle
-import java.text.SimpleDateFormat
-import java.util.Locale
+import com.adriandeleon.friends.ui.extensions.toDateTime
 
 @Composable
 fun TimelineScreen(
@@ -165,12 +164,7 @@ fun PostItem(
     }
 }
 
-private fun Long.toDateTime(): String {
-    val dateTimeFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US)
-    return dateTimeFormat.format(this)
-}
-
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PostsListPreview() {
     val posts = (0..100).map { index ->
