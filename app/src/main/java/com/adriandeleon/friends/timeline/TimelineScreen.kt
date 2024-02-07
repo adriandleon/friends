@@ -99,7 +99,6 @@ fun TimelineScreen(
         }
 
         InfoMessage(
-            isVisible = screenState.isInfoMessageShowing,
             stringResource = screenState.currentInfoMessage
         )
 

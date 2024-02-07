@@ -6,6 +6,7 @@ import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.PostCatalog
 import com.adriandeleon.friends.domain.user.InMemoryUserData
 import com.adriandeleon.friends.infraestructure.ControllableClock
+import com.adriandeleon.friends.timeline.TimelineScreenTest.OfflinePostCatalog
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
@@ -48,6 +49,18 @@ class CreateNewPostScreenTest {
             submit()
         } verify {
             newlyCreatedPostIsShown("userId", "27-11-2023 15:30", "my first post")
+        }
+    }
+
+    @Test
+    fun showsBackendError() {
+        replacePostCatalogWith(OfflinePostCatalog())
+
+        launchPostComposerFor("dan@friends.com", createNewPostRule) {
+            typePost("Some Post")
+            submit()
+        } verify {
+            backendErrorIsDisplayed()
         }
     }
 

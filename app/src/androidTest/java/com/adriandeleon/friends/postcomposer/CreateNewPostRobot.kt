@@ -62,4 +62,10 @@ class CreateNewPostVerificationRobot(private val rule: MainActivityRule) {
         rule.onAllNodesWithText(dateTime).onLast().assertIsDisplayed()
         rule.onNodeWithText(postContent).assertIsDisplayed()
     }
+
+    fun backendErrorIsDisplayed() {
+        val errorMessage = rule.activity.getString(R.string.creatingPostError)
+        rule.onNodeWithText(errorMessage)
+            .assertIsDisplayed()
+    }
 }

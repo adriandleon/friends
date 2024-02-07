@@ -1,5 +1,6 @@
 package com.adriandeleon.friends.postcomposer
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,13 +28,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.adriandeleon.friends.R
 import com.adriandeleon.friends.postcomposer.state.CreatePostState
+import com.adriandeleon.friends.ui.composables.InfoMessage
 import com.adriandeleon.friends.ui.composables.ScreenTitle
 
 class CreateNewPostScreenState {
+    var currentMessage by mutableIntStateOf(0)
     var isPostSubmitted by mutableStateOf(false)
 
     fun setPostSubmitted() {
         isPostSubmitted = true
+    }
+
+    fun showMessage(@StringRes message: Int) {
+        if (currentMessage != message) {
+            currentMessage = message
+        }
     }
 }
 
@@ -52,32 +62,42 @@ fun CreateNewPostScreen(
                 onPostCreated()
             }
         }
-        else -> {}
+        is CreatePostState.BackendError -> {
+            screenState.showMessage(R.string.creatingPostError)
+        }
+        else -> {
+
+        }
     }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)
-    ) {
-        ScreenTitle(resourceId = R.string.createNewPost)
-        Spacer(modifier = Modifier.height(16.dp))
-        Box(modifier = Modifier.fillMaxSize()) {
-            PostComposer(postText) { postText = it }
-            FloatingActionButton(
-                onClick = {
-                    screenState.setPostSubmitted()
-                    createPostViewModel.createPost(postText)
-                },
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .testTag(stringResource(id = R.string.submitPost))
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Done,
-                    contentDescription = stringResource(id = R.string.submitPost)
-                )
+    Box {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            ScreenTitle(resourceId = R.string.createNewPost)
+            Spacer(modifier = Modifier.height(16.dp))
+            Box(modifier = Modifier.fillMaxSize()) {
+                PostComposer(postText) { postText = it }
+                FloatingActionButton(
+                    onClick = {
+                        screenState.setPostSubmitted()
+                        createPostViewModel.createPost(postText)
+                    },
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .testTag(stringResource(id = R.string.submitPost))
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Done,
+                        contentDescription = stringResource(id = R.string.submitPost)
+                    )
+                }
             }
         }
+
+        InfoMessage(stringResource = screenState.currentMessage)
     }
 }
 

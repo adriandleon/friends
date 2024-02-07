@@ -2,9 +2,9 @@ package com.adriandeleon.friends.signup
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
-import com.adriandeleon.friends.domain.exceptions.BackendException
-import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
+import com.adriandeleon.friends.domain.user.OfflineUserCatalog
+import com.adriandeleon.friends.domain.user.UnavailableUserCatalog
 import com.adriandeleon.friends.domain.user.User
 import com.adriandeleon.friends.domain.user.UserCatalog
 import kotlinx.coroutines.delay
@@ -147,7 +147,7 @@ class SignedUpScreenTest {
         }
 
         override fun followedBy(userId: String): List<String> {
-            TODO("Not yet implemented")
+            return emptyList()
         }
     }
 
@@ -161,26 +161,5 @@ class SignedUpScreenTest {
             factory { userCatalog }
         }
         loadKoinModules(replaceModule)
-    }
-
-    class UnavailableUserCatalog : UserCatalog {
-        override suspend fun createUser(email: String, password: String, about: String): User {
-            throw BackendException()
-        }
-
-        override fun followedBy(userId: String): List<String> {
-            TODO("Not yet implemented")
-        }
-
-    }
-
-    class OfflineUserCatalog : UserCatalog {
-        override suspend fun createUser(email: String, password: String, about: String): User {
-            throw ConnectionUnavailableException()
-        }
-
-        override fun followedBy(userId: String): List<String> {
-            TODO("Not yet implemented")
-        }
     }
 }

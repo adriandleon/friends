@@ -119,7 +119,7 @@ class TimelineScreenTest {
 
     class OfflinePostCatalog : PostCatalog {
         override suspend fun addPost(userId: String, postText: String): Post {
-            TODO("Not yet implemented")
+            throw ConnectionUnavailableException()
         }
 
         override suspend fun postsFor(userIds: List<String>): List<Post> {

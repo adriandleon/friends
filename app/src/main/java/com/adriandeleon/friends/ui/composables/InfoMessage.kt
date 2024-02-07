@@ -2,7 +2,6 @@ package com.adriandeleon.friends.ui.composables
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -16,18 +15,31 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun InfoMessage(
-    isVisible: Boolean,
     @StringRes stringResource: Int,
 ) {
+    if (stringResource == 0) return
+    var shouldShow by remember { mutableStateOf(false) }
+
+    LaunchedEffect(stringResource) {
+        shouldShow = true
+        delay(20000)
+        shouldShow = false
+    }
+
     AnimatedVisibility(
-        visible = isVisible,
+        visible = shouldShow,
         enter = slideInVertically(
             initialOffsetY = { fullHeight -> -fullHeight },
             animationSpec = tween(durationMillis = 150, easing = FastOutLinearInEasing)
