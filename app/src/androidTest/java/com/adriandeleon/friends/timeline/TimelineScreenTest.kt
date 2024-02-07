@@ -2,12 +2,12 @@ package com.adriandeleon.friends.timeline
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
-import com.adriandeleon.friends.domain.exceptions.BackendException
-import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
+import com.adriandeleon.friends.domain.post.DelayingPostsCatalog
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
+import com.adriandeleon.friends.domain.post.OfflinePostCatalog
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.domain.post.PostCatalog
-import kotlinx.coroutines.delay
+import com.adriandeleon.friends.domain.post.UnavailablePostCatalog
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
@@ -94,36 +94,5 @@ class TimelineScreenTest {
             factory { postsCatalog }
         }
         loadKoinModules(replaceModule)
-    }
-
-    class DelayingPostsCatalog : PostCatalog {
-        override suspend fun addPost(userId: String, postText: String): Post {
-            TODO("Not yet implemented")
-        }
-
-        override suspend fun postsFor(userIds: List<String>): List<Post> {
-            delay(3000)
-            return emptyList()
-        }
-    }
-
-    class UnavailablePostCatalog : PostCatalog {
-        override suspend fun addPost(userId: String, postText: String): Post {
-            TODO("Not yet implemented")
-        }
-
-        override suspend fun postsFor(userIds: List<String>): List<Post> {
-            throw BackendException()
-        }
-    }
-
-    class OfflinePostCatalog : PostCatalog {
-        override suspend fun addPost(userId: String, postText: String): Post {
-            throw ConnectionUnavailableException()
-        }
-
-        override suspend fun postsFor(userIds: List<String>): List<Post> {
-            throw ConnectionUnavailableException()
-        }
     }
 }

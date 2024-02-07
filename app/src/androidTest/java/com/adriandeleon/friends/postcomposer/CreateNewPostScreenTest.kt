@@ -4,9 +4,9 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.PostCatalog
+import com.adriandeleon.friends.domain.post.UnavailablePostCatalog
 import com.adriandeleon.friends.domain.user.InMemoryUserData
 import com.adriandeleon.friends.infraestructure.ControllableClock
-import com.adriandeleon.friends.timeline.TimelineScreenTest.OfflinePostCatalog
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
@@ -54,7 +54,7 @@ class CreateNewPostScreenTest {
 
     @Test
     fun showsBackendError() {
-        replacePostCatalogWith(OfflinePostCatalog())
+        replacePostCatalogWith(UnavailablePostCatalog())
 
         launchPostComposerFor("dan@friends.com", createNewPostRule) {
             typePost("Some Post")
