@@ -28,10 +28,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.adriandeleon.friends.R
 import com.adriandeleon.friends.postcomposer.state.CreatePostState
+import com.adriandeleon.friends.ui.composables.BlockingLoading
 import com.adriandeleon.friends.ui.composables.InfoMessage
 import com.adriandeleon.friends.ui.composables.ScreenTitle
 
 class CreateNewPostScreenState {
+    var isLoading by mutableStateOf(false)
     var currentMessage by mutableIntStateOf(0)
     var isPostSubmitted by mutableStateOf(false)
 
@@ -40,9 +42,14 @@ class CreateNewPostScreenState {
     }
 
     fun showMessage(@StringRes message: Int) {
+        isLoading = false
         if (currentMessage != message) {
             currentMessage = message
         }
+    }
+
+    fun showLoading() {
+        isLoading = true
     }
 }
 
@@ -57,6 +64,8 @@ fun CreateNewPostScreen(
     val createPostState by createPostViewModel.postState.observeAsState()
 
     when (createPostState) {
+        is CreatePostState.Loading ->
+            screenState.showLoading()
         is CreatePostState.Created -> {
             if (screenState.isPostSubmitted) {
                 onPostCreated()
@@ -99,6 +108,8 @@ fun CreateNewPostScreen(
         }
 
         InfoMessage(stringResource = screenState.currentMessage)
+
+        BlockingLoading(isShowing = screenState.isLoading)
     }
 }
 

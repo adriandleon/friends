@@ -2,6 +2,7 @@ package com.adriandeleon.friends.postcomposer
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
+import com.adriandeleon.friends.domain.post.DelayingPostsCatalog
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.OfflinePostCatalog
 import com.adriandeleon.friends.domain.post.PostCatalog
@@ -50,6 +51,18 @@ class CreateNewPostScreenTest {
             submit()
         } verify {
             newlyCreatedPostIsShown("userId", "27-11-2023 15:30", "my first post")
+        }
+    }
+
+    @Test
+    fun showsBlockingLoading() {
+        replacePostCatalogWith(DelayingPostsCatalog())
+
+        launchPostComposerFor("bob@friends.com", createNewPostRule) {
+            typePost("Waiting")
+            submit()
+        } verify {
+            blockingLoadingIsShown()
         }
     }
 

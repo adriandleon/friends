@@ -74,4 +74,10 @@ class CreateNewPostVerificationRobot(private val rule: MainActivityRule) {
         rule.onNodeWithText(offlineError)
             .assertIsDisplayed()
     }
+
+    fun blockingLoadingIsShown() {
+        val loading = rule.activity.getString(R.string.loading)
+        rule.onNodeWithTag(loading)
+            .assertIsDisplayed()
+    }
 }
