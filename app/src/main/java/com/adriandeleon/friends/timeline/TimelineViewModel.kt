@@ -15,8 +15,8 @@ class TimelineViewModel(
     private val dispatchers: CoroutineDispatchers
 ) : ViewModel() {
 
-    private val mutableTimelineState = MutableLiveData<TimelineState>()
-    val timelineState: LiveData<TimelineState> = mutableTimelineState
+    private val mutableTimelineState = MutableLiveData<TimelineState?>()
+    val timelineState: LiveData<TimelineState?> = mutableTimelineState
 
     fun timelineFor(userId: String) {
         viewModelScope.launch {

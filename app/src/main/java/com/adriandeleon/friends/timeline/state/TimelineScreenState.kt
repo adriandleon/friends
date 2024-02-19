@@ -13,7 +13,6 @@ class TimelineScreenState {
     var posts by mutableStateOf(emptyList<Post>())
     var loadedUserId by mutableStateOf("")
     var isLoading by mutableStateOf(false)
-    var isInfoMessageShowing by mutableStateOf(false)
     var currentInfoMessage by mutableStateOf(0)
 
     fun updatePosts(newPosts: List<Post>) {

@@ -1,7 +1,6 @@
 package com.adriandeleon.friends.ui.composables
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -19,7 +18,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.adriandeleon.friends.R
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun BlockingLoading(
     isShowing: Boolean

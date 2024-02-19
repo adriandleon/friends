@@ -32,9 +32,9 @@ fun InfoMessage(
     if (stringResource == 0) return
     var shouldShow by remember { mutableStateOf(false) }
 
-    LaunchedEffect(stringResource) {
+    LaunchedEffect(key1 = "displayMessage") {
         shouldShow = true
-        delay(20000)
+        delay(1500)
         shouldShow = false
     }
 

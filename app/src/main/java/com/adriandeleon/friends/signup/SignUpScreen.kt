@@ -24,19 +24,17 @@ fun SignUpScreen(
     onSignedUp: (String) -> Unit
 ) {
 
-    val coroutineScope = rememberCoroutineScope()
-    val screenState by remember { mutableStateOf(SignUpScreenState(coroutineScope)) }
+    val screenState by remember { mutableStateOf(SignUpScreenState()) }
     val signUpState by signUpViewModel.signUpState.observeAsState()
 
     when (signUpState) {
-        is SignUpState.Loading -> screenState.toggleLoading()
         is SignUpState.SignedUp -> onSignedUp((signUpState as SignUpState.SignedUp).user.id)
         is SignUpState.BadEmail -> screenState.showBadEmail()
         is SignUpState.BadPassword -> screenState.showBadPassword()
         is SignUpState.DuplicateAccount -> screenState.toggleInfoMessage(R.string.duplicateAccountError)
         is SignUpState.BackendError -> screenState.toggleInfoMessage(R.string.createAccountError)
         is SignUpState.Offline -> screenState.toggleInfoMessage(R.string.offlineError)
-        else -> {}
+        else -> screenState.toggleLoading()
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -81,9 +79,7 @@ fun SignUpScreen(
             }
         }
 
-        InfoMessage(
-            stringResource = screenState.currentInfoMessage
-        )
+        InfoMessage(stringResource = screenState.currentInfoMessage)
 
         BlockingLoading(screenState.isLoading)
     }

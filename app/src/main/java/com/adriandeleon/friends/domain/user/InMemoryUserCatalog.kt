@@ -13,14 +13,15 @@ class InMemoryUserCatalog(
         about: String
     ): User {
         checkAccountExists(email)
-        val userId = createUserIdFor(email) + "Id"
+        val userId = createUserIdFor(email)
         val user = User(userId, email, about)
         saveUser(password, user)
         return user
     }
 
     override fun followedBy(userId: String): List<String> {
-        return followings.filter { it.userId == userId }
+        return followings
+            .filter{ it.userId == userId }
             .map { it.followedId }
     }
 
@@ -31,7 +32,7 @@ class InMemoryUserCatalog(
     }
 
     private fun createUserIdFor(email: String): String {
-        return email.takeWhile { it != '@' }
+        return email.takeWhile { it != '@' } + "Id"
     }
 
     private fun saveUser(password: String, user: User) {

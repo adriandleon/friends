@@ -1,6 +1,5 @@
 package com.adriandeleon.friends.postcomposer
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +16,6 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,31 +25,11 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.adriandeleon.friends.R
+import com.adriandeleon.friends.postcomposer.state.CreateNewPostScreenState
 import com.adriandeleon.friends.postcomposer.state.CreatePostState
 import com.adriandeleon.friends.ui.composables.BlockingLoading
 import com.adriandeleon.friends.ui.composables.InfoMessage
 import com.adriandeleon.friends.ui.composables.ScreenTitle
-
-class CreateNewPostScreenState {
-    var isLoading by mutableStateOf(false)
-    var currentMessage by mutableIntStateOf(0)
-    var isPostSubmitted by mutableStateOf(false)
-
-    fun setPostSubmitted() {
-        isPostSubmitted = true
-    }
-
-    fun showMessage(@StringRes message: Int) {
-        isLoading = false
-        if (currentMessage != message) {
-            currentMessage = message
-        }
-    }
-
-    fun showLoading() {
-        isLoading = true
-    }
-}
 
 @Composable
 fun CreateNewPostScreen(

@@ -24,7 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -67,7 +66,7 @@ fun TimelineScreen(
         is TimelineState.OfflineError ->
             screenState.showInfoMessage(R.string.offlineError)
 
-        else -> {}
+        else -> screenState.showLoading()
     }
 
     Box {

@@ -21,7 +21,7 @@ class RenderingTimelineStatesTest {
 
     @Test
     fun `timeline state exposed to an observer`() {
-        val renderedState = mutableListOf<TimelineState>()
+        val renderedState = mutableListOf<TimelineState?>()
         viewModel.timelineState.observeForever { renderedState.add(it) }
 
         viewModel.timelineFor(":irrelevant:")
