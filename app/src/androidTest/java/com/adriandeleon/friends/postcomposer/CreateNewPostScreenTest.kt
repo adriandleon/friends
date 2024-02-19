@@ -22,7 +22,7 @@ class CreateNewPostScreenTest {
     val createNewPostRule = createAndroidComposeRule<MainActivity>()
 
     private val timestamp = Calendar.getInstance()
-        .also { it.set(2023, 11, 27, 18, 30) }
+        .also { it.set(2021, 9, 30, 15, 30) }
         .timeInMillis
 
     @Test
@@ -34,23 +34,23 @@ class CreateNewPostScreenTest {
             typePost("My New Post")
             submit()
         } verify {
-            newlyCreatedPostIsShown("userId", "27-11-2023 15:30", "My New Post")
+            newlyCreatedPostIsShown("userId", "30-10-2021 15:30", "My New Post")
         }
     }
 
     @Test
     fun createMultiplePosts() {
-        replaceUserDataWith(InMemoryUserData("userId"))
         replacePostCatalogWith(InMemoryPostCatalog(clock = ControllableClock(timestamp)))
 
         launchPostComposerFor("user@friends.com", createNewPostRule) {
             typePost("My first post")
             submit()
             tapOnCreateNewPost()
-            typePost("My second post")
+            typePost("My Second Post")
             submit()
         } verify {
-            newlyCreatedPostIsShown("userId", "27-11-2023 15:30", "my first post")
+            newlyCreatedPostIsShown("userId", "30-10-2021 15:30", "My first post")
+            newlyCreatedPostIsShown("userId", "30-10-2021 15:30", "My Second Post")
         }
     }
 
@@ -74,7 +74,7 @@ class CreateNewPostScreenTest {
             typePost("Some Post")
             submit()
         } verify {
-            backendErrorIsDisplayed()
+            backendErrorIsShown()
         }
     }
 
@@ -86,7 +86,7 @@ class CreateNewPostScreenTest {
             typePost("My New Post")
             submit()
         } verify {
-            offlineErrorIsDisplayed()
+            offlineErrorIsShown()
         }
     }
 

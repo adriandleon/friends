@@ -9,9 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class TimelineScreenState(
-    private val coroutineScope: CoroutineScope
-) {
+class TimelineScreenState {
     var posts by mutableStateOf(emptyList<Post>())
     var loadedUserId by mutableStateOf("")
     var isLoading by mutableStateOf(false)
@@ -36,15 +34,10 @@ class TimelineScreenState(
         isLoading = true
     }
 
-    fun showInfoMessage(@StringRes infoMessage: Int) = coroutineScope.launch {
+    fun showInfoMessage(@StringRes infoMessage: Int) {
         isLoading = false
         if (currentInfoMessage != infoMessage) {
             currentInfoMessage = infoMessage
-            if (!isInfoMessageShowing) {
-                isInfoMessageShowing = true
-                delay(1500)
-                isInfoMessageShowing = false
-            }
         }
     }
 }

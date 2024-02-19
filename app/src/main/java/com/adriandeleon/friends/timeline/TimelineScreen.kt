@@ -47,8 +47,7 @@ fun TimelineScreen(
     timelineViewModel: TimelineViewModel,
     onCreateNewPost: () -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val screenState by remember { mutableStateOf(TimelineScreenState(coroutineScope)) }
+    val screenState by remember { mutableStateOf(TimelineScreenState()) }
     val timelineState by timelineViewModel.timelineState.observeAsState()
 
     if (screenState.shouldLoadPostsFor(userId)) {
@@ -74,8 +73,8 @@ fun TimelineScreen(
     Box {
         Column(
             modifier = Modifier
-                .padding(16.dp)
                 .fillMaxSize()
+                .padding(16.dp)
         ) {
             ScreenTitle(resourceId = R.string.timeline)
             Spacer(modifier = Modifier.height(16.dp))
