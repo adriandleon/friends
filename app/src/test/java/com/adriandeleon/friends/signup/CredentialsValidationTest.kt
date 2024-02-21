@@ -3,6 +3,7 @@ package com.adriandeleon.friends.signup
 import com.adriandeleon.friends.InstantTaskExecutor
 import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
+import com.adriandeleon.friends.domain.user.InMemoryUserDataStore
 import com.adriandeleon.friends.domain.user.UserRepository
 import com.adriandeleon.friends.domain.validation.CredentialsValidationResult
 import com.adriandeleon.friends.domain.validation.RegexCredentialsValidator
@@ -30,7 +31,7 @@ class CredentialsValidationTest {
     fun `invalid email`(email: String) {
         val viewModel = SignUpViewModel(
             RegexCredentialsValidator(),
-            UserRepository(InMemoryUserCatalog()),
+            UserRepository(InMemoryUserCatalog(), InMemoryUserDataStore()),
             TestDispatchers()
         )
 
@@ -64,7 +65,7 @@ class CredentialsValidationTest {
     fun `invalid password`(password: String) {
         val viewModel = SignUpViewModel(
             RegexCredentialsValidator(),
-            UserRepository(InMemoryUserCatalog()),
+            UserRepository(InMemoryUserCatalog(), InMemoryUserDataStore()),
             TestDispatchers()
         )
 

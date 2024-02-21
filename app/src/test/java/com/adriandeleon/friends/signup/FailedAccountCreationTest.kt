@@ -1,5 +1,6 @@
 package com.adriandeleon.friends.signup
 
+import com.adriandeleon.friends.domain.user.InMemoryUserDataStore
 import com.adriandeleon.friends.domain.user.OfflineUserCatalog
 import com.adriandeleon.friends.domain.user.UnavailableUserCatalog
 import com.adriandeleon.friends.domain.user.UserRepository
@@ -12,7 +13,7 @@ class FailedAccountCreationTest {
 
     @Test
     fun `backend error`() = runBlocking {
-        val userRepository = UserRepository(UnavailableUserCatalog())
+        val userRepository = UserRepository(UnavailableUserCatalog(), InMemoryUserDataStore())
 
         val result = userRepository.signUp(":email:", ":password:", ":about:")
 
@@ -21,7 +22,7 @@ class FailedAccountCreationTest {
 
     @Test
     fun `offline error`() = runBlocking {
-        val userRepository = UserRepository(OfflineUserCatalog())
+        val userRepository = UserRepository(OfflineUserCatalog(), InMemoryUserDataStore())
         val result = userRepository.signUp(":email:", ":password:", ":about:")
         assertEquals(SignUpState.Offline, result)
     }
