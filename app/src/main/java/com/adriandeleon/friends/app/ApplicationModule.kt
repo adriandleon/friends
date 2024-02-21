@@ -7,6 +7,7 @@ import com.adriandeleon.friends.domain.timeline.TimelineRepository
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.domain.user.InMemoryUserDataStore
 import com.adriandeleon.friends.domain.user.UserCatalog
+import com.adriandeleon.friends.domain.user.UserDataStore
 import com.adriandeleon.friends.domain.user.UserRepository
 import com.adriandeleon.friends.domain.validation.RegexCredentialsValidator
 import com.adriandeleon.friends.postcomposer.CreatePostViewModel
@@ -19,7 +20,7 @@ val applicationModule = module {
     single<CoroutineDispatchers> { DefaultDispatchers() }
     single<UserCatalog> { InMemoryUserCatalog() }
     single<PostCatalog> { InMemoryPostCatalog() }
-    single { InMemoryUserDataStore() }
+    single<UserDataStore> { InMemoryUserDataStore() }
     factory { RegexCredentialsValidator() }
     factory { UserRepository(userCatalog = get(), userDataStore = get()) }
     factory { TimelineRepository(userCatalog = get(), postCatalog = get()) }

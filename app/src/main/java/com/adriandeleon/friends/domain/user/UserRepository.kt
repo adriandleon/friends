@@ -7,7 +7,7 @@ import com.adriandeleon.friends.signup.state.SignUpState
 
 class UserRepository(
     private val userCatalog: UserCatalog,
-    private val userDataStore: InMemoryUserDataStore
+    private val userDataStore: UserDataStore
 ) {
 
     suspend fun signUp(

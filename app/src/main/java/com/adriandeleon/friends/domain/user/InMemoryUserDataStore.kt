@@ -2,10 +2,10 @@ package com.adriandeleon.friends.domain.user
 
 class InMemoryUserDataStore(
     private var loggedInUserId: String = ""
-) {
-    fun loggedInUserId() = loggedInUserId
+) : UserDataStore {
+    override fun loggedInUserId() = loggedInUserId
 
-    fun storeLoggedInUserId(userId: String) {
+    override fun storeLoggedInUserId(userId: String) {
         loggedInUserId = userId
     }
 }
