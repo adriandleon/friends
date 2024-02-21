@@ -5,7 +5,7 @@ import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.domain.post.PostRepository
-import com.adriandeleon.friends.domain.user.InMemoryUserData
+import com.adriandeleon.friends.domain.user.InMemoryUserDataStore
 import com.adriandeleon.friends.infrastructure.ControllableClock
 import com.adriandeleon.friends.infrastructure.ControllableIdGenerator
 import com.adriandeleon.friends.postcomposer.state.CreatePostState
@@ -24,7 +24,7 @@ class RenderingCreatePostStatesTest {
     private val idGenerator = ControllableIdGenerator(postId)
     private val clock = ControllableClock(timestamp)
     private val postCatalog = InMemoryPostCatalog(idGenerator = idGenerator, clock = clock)
-    private val userData = InMemoryUserData(loggedInUserId)
+    private val userData = InMemoryUserDataStore(loggedInUserId)
     private val postRepository = PostRepository(userData, postCatalog)
     private val dispatchers = TestDispatchers()
     private val viewModel = CreatePostViewModel(postRepository, dispatchers)

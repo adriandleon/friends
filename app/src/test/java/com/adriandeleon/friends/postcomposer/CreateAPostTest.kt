@@ -5,7 +5,7 @@ import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.domain.post.PostRepository
-import com.adriandeleon.friends.domain.user.InMemoryUserData
+import com.adriandeleon.friends.domain.user.InMemoryUserDataStore
 import com.adriandeleon.friends.infrastructure.ControllableClock
 import com.adriandeleon.friends.infrastructure.ControllableIdGenerator
 import com.adriandeleon.friends.postcomposer.state.CreatePostState
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 class CreateAPostTest {
 
     private val userId = "userId"
-    private val userData = InMemoryUserData(userId)
+    private val userData = InMemoryUserDataStore(userId)
 
     @Test
     fun `a post is created`() {

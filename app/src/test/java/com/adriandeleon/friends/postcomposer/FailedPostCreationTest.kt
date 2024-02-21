@@ -5,7 +5,7 @@ import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.post.OfflinePostCatalog
 import com.adriandeleon.friends.domain.post.PostRepository
 import com.adriandeleon.friends.domain.post.UnavailablePostCatalog
-import com.adriandeleon.friends.domain.user.InMemoryUserData
+import com.adriandeleon.friends.domain.user.InMemoryUserDataStore
 import com.adriandeleon.friends.postcomposer.state.CreatePostState
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -19,7 +19,7 @@ class FailedPostCreationTest {
 
         val viewModel = CreatePostViewModel(
             PostRepository(
-                InMemoryUserData("userId"),
+                InMemoryUserDataStore("userId"),
                 UnavailablePostCatalog()
             ),
             dispatchers = TestDispatchers()
@@ -33,7 +33,7 @@ class FailedPostCreationTest {
     fun `offline error`() {
         val viewModel = CreatePostViewModel(
             PostRepository(
-                InMemoryUserData("userId"),
+                InMemoryUserDataStore("userId"),
                 OfflinePostCatalog()
             ),
             dispatchers = TestDispatchers()

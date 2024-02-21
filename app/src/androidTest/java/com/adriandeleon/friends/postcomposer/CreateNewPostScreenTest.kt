@@ -7,7 +7,7 @@ import com.adriandeleon.friends.domain.post.InMemoryPostCatalog
 import com.adriandeleon.friends.domain.post.OfflinePostCatalog
 import com.adriandeleon.friends.domain.post.PostCatalog
 import com.adriandeleon.friends.domain.post.UnavailablePostCatalog
-import com.adriandeleon.friends.domain.user.InMemoryUserData
+import com.adriandeleon.friends.domain.user.InMemoryUserDataStore
 import com.adriandeleon.friends.infraestructure.ControllableClock
 import org.junit.After
 import org.junit.Ignore
@@ -28,7 +28,7 @@ class CreateNewPostScreenTest {
 
     @Test
     fun createNewPost() {
-        replaceUserDataWith(InMemoryUserData("userId"))
+        replaceUserDataWith(InMemoryUserDataStore("userId"))
         replacePostCatalogWith(InMemoryPostCatalog(clock = ControllableClock(timestamp)))
 
         launchPostComposerFor("user@friends.com", createNewPostRule) {
@@ -95,7 +95,7 @@ class CreateNewPostScreenTest {
     @After
     fun tearDown() {
         replacePostCatalogWith(InMemoryPostCatalog())
-        replaceUserDataWith(InMemoryUserData(""))
+        replaceUserDataWith(InMemoryUserDataStore(""))
     }
 
     private fun replacePostCatalogWith(postCatalog: PostCatalog) {
@@ -105,7 +105,7 @@ class CreateNewPostScreenTest {
         loadKoinModules(module)
     }
 
-    private fun replaceUserDataWith(userData: InMemoryUserData) {
+    private fun replaceUserDataWith(userData: InMemoryUserDataStore) {
         val module = module {
             single { userData }
         }

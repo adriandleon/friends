@@ -2,11 +2,11 @@ package com.adriandeleon.friends.domain.post
 
 import com.adriandeleon.friends.domain.exceptions.BackendException
 import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
-import com.adriandeleon.friends.domain.user.InMemoryUserData
+import com.adriandeleon.friends.domain.user.InMemoryUserDataStore
 import com.adriandeleon.friends.postcomposer.state.CreatePostState
 
 class PostRepository(
-    private val userData: InMemoryUserData,
+    private val userData: InMemoryUserDataStore,
     private val postCatalog: PostCatalog
 ) {
 

@@ -5,7 +5,7 @@ import com.adriandeleon.friends.domain.post.PostCatalog
 import com.adriandeleon.friends.domain.post.PostRepository
 import com.adriandeleon.friends.domain.timeline.TimelineRepository
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
-import com.adriandeleon.friends.domain.user.InMemoryUserData
+import com.adriandeleon.friends.domain.user.InMemoryUserDataStore
 import com.adriandeleon.friends.domain.user.UserCatalog
 import com.adriandeleon.friends.domain.user.UserRepository
 import com.adriandeleon.friends.domain.validation.RegexCredentialsValidator
@@ -19,7 +19,7 @@ val applicationModule = module {
     single<CoroutineDispatchers> { DefaultDispatchers() }
     single<UserCatalog> { InMemoryUserCatalog() }
     single<PostCatalog> { InMemoryPostCatalog() }
-    single { InMemoryUserData("") }
+    single { InMemoryUserDataStore("") }
     factory { RegexCredentialsValidator() }
     factory { UserRepository(userCatalog = get()) }
     factory { TimelineRepository(userCatalog = get(), postCatalog = get()) }

@@ -1,6 +1,6 @@
 package com.adriandeleon.friends.domain.user
 
-class InMemoryUserData(
+class InMemoryUserDataStore(
     private val loggedInUserId: String
 ) {
     fun loggedInUserId() = loggedInUserId
