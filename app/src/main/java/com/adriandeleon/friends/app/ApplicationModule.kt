@@ -23,7 +23,7 @@ val applicationModule = module {
     factory { RegexCredentialsValidator() }
     factory { UserRepository(userCatalog = get()) }
     factory { TimelineRepository(userCatalog = get(), postCatalog = get()) }
-    factory { PostRepository(userData = get(), postCatalog = get()) }
+    factory { PostRepository(userDataStore = get(), postCatalog = get()) }
 
     viewModel {
         SignUpViewModel(
