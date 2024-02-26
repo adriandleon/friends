@@ -28,7 +28,6 @@ class CreateNewPostScreenTest {
 
     @Test
     fun createNewPost() {
-        replaceUserDataWith(InMemoryUserDataStore("userId"))
         replacePostCatalogWith(InMemoryPostCatalog(clock = ControllableClock(timestamp)))
 
         launchPostComposerFor("user@friends.com", createNewPostRule) {
@@ -95,7 +94,7 @@ class CreateNewPostScreenTest {
     @After
     fun tearDown() {
         replacePostCatalogWith(InMemoryPostCatalog())
-        replaceUserDataWith(InMemoryUserDataStore(""))
+        replaceUserDataWith(InMemoryUserDataStore())
     }
 
     private fun replacePostCatalogWith(postCatalog: PostCatalog) {
