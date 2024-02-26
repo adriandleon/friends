@@ -11,7 +11,7 @@ import com.adriandeleon.friends.R
 import com.adriandeleon.friends.domain.post.Post
 import com.adriandeleon.friends.signup.launchSignUpScreen
 
-typealias MainActivityRule = AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
+private typealias MainActivityRule = AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
 
 fun launchTimelineFor(
     email: String,
@@ -33,6 +33,12 @@ class TimelineRobot(
     fun tapOnCreateNewPost() {
         val createNewPost = rule.activity.getString(R.string.createNewPost)
         rule.onNodeWithTag(createNewPost)
+            .performClick()
+    }
+
+    fun tapOpPeople() {
+        val people = rule.activity.getString(R.string.people)
+        rule.onNodeWithText(people)
             .performClick()
     }
 
