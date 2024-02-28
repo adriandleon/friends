@@ -24,9 +24,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
             FriendsTheme {
                 Surface(color = MaterialTheme.colors.background) {
+                    val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = SIGN_UP) {
                         composable(SIGN_UP) {
                             SignUpScreen { signedUserId ->
