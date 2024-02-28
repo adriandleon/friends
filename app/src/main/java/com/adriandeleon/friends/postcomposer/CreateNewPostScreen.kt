@@ -30,13 +30,12 @@ import com.adriandeleon.friends.postcomposer.state.CreatePostState
 import com.adriandeleon.friends.ui.composables.BlockingLoading
 import com.adriandeleon.friends.ui.composables.InfoMessage
 import com.adriandeleon.friends.ui.composables.ScreenTitle
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun CreateNewPostScreen(
-    createPostViewModel: CreatePostViewModel,
-    onPostCreated: () -> Unit,
-) {
+fun CreateNewPostScreen(onPostCreated: () -> Unit) {
 
+    val createPostViewModel = koinViewModel<CreatePostViewModel>()
     val screenState by remember { mutableStateOf(CreateNewPostScreenState()) }
     var postText by remember { mutableStateOf("") }
     val createPostState by createPostViewModel.postState.observeAsState()

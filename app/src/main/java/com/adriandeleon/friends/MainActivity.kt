@@ -8,21 +8,12 @@ import androidx.compose.material.Surface
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.adriandeleon.friends.postcomposer.CreateNewPostScreen
-import com.adriandeleon.friends.postcomposer.CreatePostViewModel
 import com.adriandeleon.friends.signup.SignUpScreen
-import com.adriandeleon.friends.signup.SignUpViewModel
 import com.adriandeleon.friends.timeline.TimelineScreen
-import com.adriandeleon.friends.timeline.TimelineViewModel
 import com.adriandeleon.friends.ui.theme.FriendsTheme
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
-
-    private val signUpViewModel: SignUpViewModel by viewModel()
-    private val timelineViewModel: TimelineViewModel by viewModel()
-    private val createPostViewModel: CreatePostViewModel by viewModel()
 
     private companion object {
         private const val SIGN_UP = "signUp"
@@ -38,26 +29,21 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     NavHost(navController = navController, startDestination = SIGN_UP) {
                         composable(SIGN_UP) {
-                            SignUpScreen(signUpViewModel) { signedUserId ->
+                            SignUpScreen { signedUserId ->
                                 navController.navigate("$TIMELINE/$signedUserId") {
                                     popUpTo(SIGN_UP) { inclusive = true }
                                 }
                             }
                         }
-                        composable(
-                            route = "$TIMELINE/{userId}",
-                            arguments = listOf(navArgument("userId") { })
-                        ) { backStackEntry ->
+                        composable(route = "$TIMELINE/{userId}") { backStackEntry ->
                             TimelineScreen(
-                                userId = backStackEntry.arguments?.getString("userId") ?: "",
-                                timelineViewModel = timelineViewModel,
-                                onCreateNewPost = {
-                                    navController.navigate(CREATE_NEW_POST)
-                                }
-                            )
+                                userId = backStackEntry.arguments?.getString("userId") ?: ""
+                            ) {
+                                navController.navigate(CREATE_NEW_POST)
+                            }
                         }
                         composable(CREATE_NEW_POST) {
-                            CreateNewPostScreen(createPostViewModel) {
+                            CreateNewPostScreen {
                                 navController.navigateUp()
                             }
                         }

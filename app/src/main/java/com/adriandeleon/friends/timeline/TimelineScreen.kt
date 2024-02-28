@@ -39,13 +39,15 @@ import com.adriandeleon.friends.ui.composables.BlockingLoading
 import com.adriandeleon.friends.ui.composables.InfoMessage
 import com.adriandeleon.friends.ui.composables.ScreenTitle
 import com.adriandeleon.friends.ui.extensions.toDateTime
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TimelineScreen(
     userId: String,
-    timelineViewModel: TimelineViewModel,
     onCreateNewPost: () -> Unit
 ) {
+
+    val timelineViewModel = koinViewModel<TimelineViewModel>()
     val screenState by remember { mutableStateOf(TimelineScreenState()) }
     val timelineState by timelineViewModel.timelineState.observeAsState()
 

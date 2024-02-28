@@ -1,9 +1,23 @@
 package com.adriandeleon.friends.signup
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -17,13 +31,12 @@ import com.adriandeleon.friends.signup.state.SignUpState
 import com.adriandeleon.friends.ui.composables.BlockingLoading
 import com.adriandeleon.friends.ui.composables.InfoMessage
 import com.adriandeleon.friends.ui.composables.ScreenTitle
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SignUpScreen(
-    signUpViewModel: SignUpViewModel,
-    onSignedUp: (String) -> Unit
-) {
+fun SignUpScreen(onSignedUp: (String) -> Unit) {
 
+    val signUpViewModel = koinViewModel<SignUpViewModel>()
     val screenState by remember { mutableStateOf(SignUpScreenState()) }
     val signUpState by signUpViewModel.signUpState.observeAsState()
 
