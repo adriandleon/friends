@@ -81,9 +81,13 @@ class MainActivity : ComponentActivity() {
     fun HomeScreen(userId: String) {
         val navigationController = rememberNavController()
         val homeNavigationScreens = listOf(Screen.Main.Timeline, Screen.Main.People)
+        val currentDestination = currentDestination(navigationController = navigationController)
+        val isMainDestination = homeNavigationScreens.any { it.route == currentDestination }
 
         Scaffold(bottomBar = {
-            HomeScreenBottomNavigation(navigationController, homeNavigationScreens)
+            if (isMainDestination) {
+                HomeScreenBottomNavigation(navigationController, homeNavigationScreens)
+            }
         }) { paddingValues ->
             NavHost(
                 navController = navigationController,
