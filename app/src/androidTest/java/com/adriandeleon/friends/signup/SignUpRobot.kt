@@ -47,8 +47,8 @@ class SignUpVerification(
 ) {
 
     fun timelineScreenIsPresent() {
-        val timeline = rule.activity.getString(R.string.timeline)
-        rule.onNodeWithText(timeline)
+        val emptyTimeline = rule.activity.getString(R.string.emptyTimelineMessage)
+        rule.onNodeWithText(emptyTimeline)
             .assertIsDisplayed()
     }
 
