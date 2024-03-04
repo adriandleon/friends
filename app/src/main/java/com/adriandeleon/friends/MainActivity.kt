@@ -39,7 +39,9 @@ class MainActivity : ComponentActivity() {
                 }
             }
             composable(route = Screen.Home.route) { backStackEntry ->
-                HomeScreen(userId = backStackEntry.arguments?.getString("userId") ?: "")
+                HomeScreen(
+                    userId = backStackEntry.arguments?.getString(Screen.Home.userId).orEmpty()
+                )
             }
         }
     }

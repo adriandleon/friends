@@ -8,6 +8,7 @@ sealed class Screen(val route: String) {
     data object SignUp : Screen("signUp")
 
     data object Home : Screen("home/{userId}") {
+        const val userId = "userId"
         fun createRoute(userId: String) = "home/$userId"
     }
 
