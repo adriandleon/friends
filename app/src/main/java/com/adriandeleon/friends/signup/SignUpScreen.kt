@@ -47,7 +47,8 @@ fun SignUpScreen(onSignedUp: (String) -> Unit) {
         is SignUpState.DuplicateAccount -> screenState.toggleInfoMessage(R.string.duplicateAccountError)
         is SignUpState.BackendError -> screenState.toggleInfoMessage(R.string.createAccountError)
         is SignUpState.Offline -> screenState.toggleInfoMessage(R.string.offlineError)
-        else -> screenState.toggleLoading()
+        is SignUpState.Loading -> screenState.toggleLoading()
+        else -> {}
     }
 
     Box(modifier = Modifier.fillMaxSize()) {

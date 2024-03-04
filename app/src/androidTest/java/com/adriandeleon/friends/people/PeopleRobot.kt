@@ -2,6 +2,8 @@ package com.adriandeleon.friends.people
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -37,7 +39,8 @@ class PeopleVerificationRobot(private val rule: MainActivityRule) {
 
     fun peopleScreenIsPresent() {
         val people = rule.activity.getString(R.string.people)
-        rule.onNodeWithText(people)
+        rule.onAllNodesWithText(people)
+            .onFirst()
             .assertIsDisplayed()
     }
 }

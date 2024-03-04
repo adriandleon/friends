@@ -68,7 +68,7 @@ fun TimelineScreen(
         is TimelineState.OfflineError ->
             screenState.showInfoMessage(R.string.offlineError)
 
-        else -> screenState.showLoading()
+        else -> {}
     }
 
     Box {
