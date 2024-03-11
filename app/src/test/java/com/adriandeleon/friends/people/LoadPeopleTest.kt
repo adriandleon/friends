@@ -1,6 +1,9 @@
 package com.adriandeleon.friends.people
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.domain.user.Friend
+import com.adriandeleon.friends.domain.user.User
+import com.adriandeleon.friends.infrastructure.builder.UserBuilder.Companion.aUser
 import com.adriandeleon.friends.people.state.PeopleState
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -18,4 +21,14 @@ class LoadPeopleTest {
         assertEquals(PeopleState.Loaded(emptyList()), viewModel.peopleState.value)
     }
 
+    @Test
+    fun `loaded a single person`() {
+        val user = User("tomId", "", "")
+        val tomFriend = Friend(user, isFollowee = false)
+        val viewModel = PeopleViewModel()
+
+        viewModel.loadPeople("annaId")
+
+        assertEquals(PeopleState.Loaded(listOf(tomFriend)), viewModel.peopleState.value)
+    }
 }
