@@ -19,7 +19,7 @@ class PeopleViewModel {
             val friendSara = Friend(User("saraId", "", ""), isFollowee = false)
             val friendTom = Friend(User("tomId", "", ""), isFollowee = false)
             mutablePeopleState.value = PeopleState.Loaded(listOf(friendAnna, friendSara, friendTom))
-        } else {
+        } else if(userId == "saraId") {
             mutablePeopleState.value = PeopleState.Loaded(emptyList())
         }
     }
