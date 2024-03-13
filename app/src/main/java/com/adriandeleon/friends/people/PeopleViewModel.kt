@@ -15,10 +15,10 @@ class PeopleViewModel {
             val tom = Friend(User("tomId", "", ""), isFollowee = false)
             mutablePeopleState.value = PeopleState.Loaded(listOf(tom))
         } else if (userId == "lucyId") {
-            val friendAnna = Friend(User("annaId", "", ""), isFollowee = true)
-            val friendSara = Friend(User("saraId", "", ""), isFollowee = false)
-            val friendTom = Friend(User("tomId", "", ""), isFollowee = false)
-            mutablePeopleState.value = PeopleState.Loaded(listOf(friendAnna, friendSara, friendTom))
+            val anna = Friend(User("annaId", "", ""), isFollowee = true)
+            val sara = Friend(User("saraId", "", ""), isFollowee = false)
+            val tom = Friend(User("tomId", "", ""), isFollowee = false)
+            mutablePeopleState.value = PeopleState.Loaded(listOf(anna, sara, tom))
         } else if(userId == "saraId") {
             mutablePeopleState.value = PeopleState.Loaded(emptyList())
         }
