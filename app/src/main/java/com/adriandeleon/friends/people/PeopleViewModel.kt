@@ -11,16 +11,19 @@ class PeopleViewModel {
     val peopleState: LiveData<PeopleState> = mutablePeopleState
 
     fun loadPeople(userId: String) {
-        val result = if (userId == "annaId") {
-            val tom = Friend(User("tomId", "", ""), isFollowee = false)
-            PeopleState.Loaded(listOf(tom))
-        } else if (userId == "lucyId") {
-            val anna = Friend(User("annaId", "", ""), isFollowee = true)
-            val sara = Friend(User("saraId", "", ""), isFollowee = false)
-            val tom = Friend(User("tomId", "", ""), isFollowee = false)
-            PeopleState.Loaded(listOf(anna, sara, tom))
-        } else if (userId == "saraId") {
-            PeopleState.Loaded(emptyList())
+        val tom = Friend(User("tomId", "", ""), isFollowee = false)
+        val anna = Friend(User("annaId", "", ""), isFollowee = true)
+        val sara = Friend(User("saraId", "", ""), isFollowee = false)
+        val peopleForUserId = mapOf(
+            "annaId" to listOf(tom),
+            "lucyId" to listOf(anna, sara, tom),
+            "saraId" to emptyList()
+        )
+
+        val isKnownUserId = peopleForUserId.contains(userId)
+
+        val result = if (isKnownUserId) {
+            PeopleState.Loaded(peopleForUserId.getValue(userId))
         } else if (userId == "johnId") {
             PeopleState.BackendError
         } else if (userId.isBlank()) {
