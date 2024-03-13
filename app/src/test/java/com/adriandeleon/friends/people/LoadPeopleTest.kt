@@ -22,8 +22,7 @@ class LoadPeopleTest {
 
     @Test
     fun `loaded a single person`() {
-        val user = User("tomId", "", "")
-        val tomFriend = Friend(user, isFollowee = false)
+        val tomFriend = Friend(User("tomId", "", ""), isFollowee = false)
         val viewModel = PeopleViewModel()
 
         viewModel.loadPeople("annaId")
