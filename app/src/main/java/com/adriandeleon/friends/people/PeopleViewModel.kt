@@ -23,6 +23,8 @@ class PeopleViewModel {
             mutablePeopleState.value = PeopleState.Loaded(emptyList())
         } else if (userId == "johnId") {
             mutablePeopleState.value = PeopleState.BackendError
+        } else if (userId.isBlank()) {
+            mutablePeopleState.value = PeopleState.Offline
         }
     }
 }
