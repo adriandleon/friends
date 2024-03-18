@@ -2,6 +2,8 @@ package com.adriandeleon.friends.people
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.adriandeleon.friends.domain.exceptions.BackendException
+import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.user.Friend
 import com.adriandeleon.friends.domain.user.User
 import com.adriandeleon.friends.people.state.PeopleState
@@ -35,7 +37,8 @@ class PeopleViewModel {
         )
 
         fun loadPeopleFor(userId: String): List<Friend> {
-            return peopleForUserId.getValue(userId)
+            if (userId.isBlank()) throw ConnectionUnavailableException()
+            return peopleForUserId[userId] ?: throw BackendException()
         }
 
         fun isKnownUser(userId: String): Boolean {
