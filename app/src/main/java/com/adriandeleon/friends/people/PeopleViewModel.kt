@@ -13,14 +13,13 @@ class PeopleViewModel {
     val peopleState: LiveData<PeopleState> = mutablePeopleState
 
     fun loadPeople(userId: String) {
-        val result = if (userId.isBlank()) {
-            PeopleState.Offline
-        } else if (InMemoryPeopleCatalog().isKnownUser(userId)) {
-            PeopleState.Loaded(InMemoryPeopleCatalog().loadPeopleFor(userId))
-        } else if (!InMemoryPeopleCatalog().isKnownUser(userId)) {
+        val result = try {
+            val peopleForUserId = InMemoryPeopleCatalog().loadPeopleFor(userId)
+            PeopleState.Loaded(peopleForUserId)
+        } catch (backendException: BackendException) {
             PeopleState.BackendError
-        } else {
-            TODO()
+        } catch (offlineException: ConnectionUnavailableException) {
+            PeopleState.Offline
         }
 
         mutablePeopleState.value = result
