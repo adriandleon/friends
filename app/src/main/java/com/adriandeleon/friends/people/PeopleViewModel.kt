@@ -13,5 +13,4 @@ class PeopleViewModel {
         val result = PeopleRepository().loadPeopleFor(userId)
         mutablePeopleState.value = result
     }
-
 }
