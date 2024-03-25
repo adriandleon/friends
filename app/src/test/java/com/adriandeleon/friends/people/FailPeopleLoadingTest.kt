@@ -1,6 +1,8 @@
 package com.adriandeleon.friends.people
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.domain.people.InMemoryPeopleCatalog
+import com.adriandeleon.friends.domain.people.PeopleRepository
 import com.adriandeleon.friends.people.state.PeopleState
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -11,7 +13,7 @@ class FailPeopleLoadingTest {
 
     @Test
     fun `backend error`() {
-        val viewModel = PeopleViewModel()
+        val viewModel = PeopleViewModel(PeopleRepository(InMemoryPeopleCatalog()))
 
         viewModel.loadPeople("johnId")
 
@@ -20,7 +22,7 @@ class FailPeopleLoadingTest {
 
     @Test
     fun `offline error`() {
-        val viewModel = PeopleViewModel()
+        val viewModel = PeopleViewModel(PeopleRepository(InMemoryPeopleCatalog()))
 
         viewModel.loadPeople("")
 

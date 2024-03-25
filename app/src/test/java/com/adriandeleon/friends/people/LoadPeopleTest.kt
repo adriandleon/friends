@@ -1,6 +1,8 @@
 package com.adriandeleon.friends.people
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.domain.people.InMemoryPeopleCatalog
+import com.adriandeleon.friends.domain.people.PeopleRepository
 import com.adriandeleon.friends.domain.user.Friend
 import com.adriandeleon.friends.domain.user.User
 import com.adriandeleon.friends.people.state.PeopleState
@@ -13,7 +15,7 @@ class LoadPeopleTest {
 
     @Test
     fun `no people found`() {
-        val viewModel = PeopleViewModel()
+        val viewModel = PeopleViewModel(PeopleRepository(InMemoryPeopleCatalog()))
 
         viewModel.loadPeople("saraId")
 
@@ -23,7 +25,7 @@ class LoadPeopleTest {
     @Test
     fun `loaded a single person`() {
         val tom = Friend(User("tomId", "", ""), isFollowee = false)
-        val viewModel = PeopleViewModel()
+        val viewModel = PeopleViewModel(PeopleRepository(InMemoryPeopleCatalog()))
 
         viewModel.loadPeople("annaId")
 
@@ -35,7 +37,7 @@ class LoadPeopleTest {
         val anna = Friend(User("annaId", "", ""), isFollowee = true)
         val sara = Friend(User("saraId", "", ""), isFollowee = false)
         val tom = Friend(User("tomId", "", ""), isFollowee = false)
-        val viewModel = PeopleViewModel()
+        val viewModel = PeopleViewModel(PeopleRepository(InMemoryPeopleCatalog()))
 
         viewModel.loadPeople("lucyId")
 
