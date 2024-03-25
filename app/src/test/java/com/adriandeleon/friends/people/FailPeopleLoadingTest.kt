@@ -1,7 +1,9 @@
 package com.adriandeleon.friends.people
 
 import com.adriandeleon.friends.InstantTaskExecutor
+import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.people.InMemoryPeopleCatalog
+import com.adriandeleon.friends.domain.people.PeopleCatalog
 import com.adriandeleon.friends.domain.people.PeopleRepository
 import com.adriandeleon.friends.domain.user.Friend
 import com.adriandeleon.friends.domain.user.User
@@ -36,10 +38,16 @@ class FailPeopleLoadingTest {
 
     @Test
     fun `offline error`() {
-        val viewModel = PeopleViewModel(PeopleRepository(peopleCatalog))
+        val viewModel = PeopleViewModel(PeopleRepository(OfflinePeopleCatalog()))
 
-        viewModel.loadPeople("")
+        viewModel.loadPeople(":irrelevant:")
 
         assertEquals(PeopleState.Offline, viewModel.peopleState.value)
+    }
+
+    private class OfflinePeopleCatalog : PeopleCatalog {
+        override fun loadPeopleFor(userId: String): List<Friend> {
+            throw ConnectionUnavailableException()
+        }
     }
 }
