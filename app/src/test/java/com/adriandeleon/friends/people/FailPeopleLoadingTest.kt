@@ -13,20 +13,21 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(InstantTaskExecutor::class)
 class FailPeopleLoadingTest {
 
+    private val tom = Friend(User("tomId", "", ""), isFollowee = false)
+    private val anna = Friend(User("annaId", "", ""), isFollowee = true)
+    private val sara = Friend(User("saraId", "", ""), isFollowee = false)
+
+    private val peopleCatalog = InMemoryPeopleCatalog(
+        mapOf(
+            "annaId" to listOf(tom),
+            "lucyId" to listOf(anna, sara, tom),
+            "saraId" to emptyList()
+        )
+    )
+
     @Test
     fun `backend error`() {
-        val viewModel = PeopleViewModel(PeopleRepository(InMemoryPeopleCatalog(
-            mapOf(
-                "annaId" to listOf(Friend(User("tomId", "", ""), isFollowee = false)),
-                "lucyId" to listOf(
-                    Friend(User("annaId", "", ""), isFollowee = true),
-                    Friend(User("saraId", "", ""), isFollowee = false),
-                    Friend(User("tomId", "", ""), isFollowee = false)
-                ),
-                "saraId" to emptyList()
-            )
-        )
-        ))
+        val viewModel = PeopleViewModel(PeopleRepository(peopleCatalog))
 
         viewModel.loadPeople("johnId")
 
@@ -35,18 +36,7 @@ class FailPeopleLoadingTest {
 
     @Test
     fun `offline error`() {
-        val viewModel = PeopleViewModel(PeopleRepository(InMemoryPeopleCatalog(
-            mapOf(
-                "annaId" to listOf(Friend(User("tomId", "", ""), isFollowee = false)),
-                "lucyId" to listOf(
-                    Friend(User("annaId", "", ""), isFollowee = true),
-                    Friend(User("saraId", "", ""), isFollowee = false),
-                    Friend(User("tomId", "", ""), isFollowee = false)
-                ),
-                "saraId" to emptyList()
-            )
-        )
-        ))
+        val viewModel = PeopleViewModel(PeopleRepository(peopleCatalog))
 
         viewModel.loadPeople("")
 
