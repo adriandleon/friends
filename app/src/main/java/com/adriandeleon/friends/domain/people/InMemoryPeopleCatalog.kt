@@ -6,9 +6,9 @@ import com.adriandeleon.friends.domain.user.Friend
 
 class InMemoryPeopleCatalog(
     private val peopleForUserId: Map<String, List<Friend>>
-) {
+) : PeopleCatalog {
 
-    fun loadPeopleFor(userId: String): List<Friend> {
+    override fun loadPeopleFor(userId: String): List<Friend> {
         if (userId.isBlank()) throw ConnectionUnavailableException()
         return peopleForUserId[userId] ?: throw BackendException()
     }

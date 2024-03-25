@@ -5,7 +5,7 @@ import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.people.state.PeopleState
 
 class PeopleRepository(
-    private val peopleCatalog: InMemoryPeopleCatalog
+    private val peopleCatalog: PeopleCatalog
 ) {
     fun loadPeopleFor(userId: String): PeopleState {
         return try {
