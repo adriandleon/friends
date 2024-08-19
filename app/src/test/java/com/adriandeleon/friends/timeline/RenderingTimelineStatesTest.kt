@@ -20,7 +20,7 @@ class RenderingTimelineStatesTest {
     private val viewModel = TimelineViewModel(timelineRepository, TestDispatchers())
 
     @Test
-    fun `timeline state exposed to an observer`() {
+    fun `timeline states delivered to an observer in particular order`() {
         val renderedState = mutableListOf<TimelineState?>()
         viewModel.timelineState.observeForever { renderedState.add(it) }
 

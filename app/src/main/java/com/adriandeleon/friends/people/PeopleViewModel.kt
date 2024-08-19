@@ -19,6 +19,7 @@ class PeopleViewModel(
 
     fun loadPeople(userId: String) {
         viewModelScope.launch {
+            mutablePeopleState.value = PeopleState.Loading
             val result = withContext(dispatchers.background) {
                 peopleRepository.loadPeopleFor(userId)
             }
