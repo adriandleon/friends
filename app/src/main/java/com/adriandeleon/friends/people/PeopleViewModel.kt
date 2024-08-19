@@ -1,5 +1,6 @@
 package com.adriandeleon.friends.people
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,13 +18,13 @@ class PeopleViewModel(
     private val mutablePeopleState = MutableLiveData<PeopleState>()
     val peopleState: LiveData<PeopleState> = mutablePeopleState
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun loadPeople(userId: String) {
         viewModelScope.launch {
             mutablePeopleState.value = PeopleState.Loading
-            val result = withContext(dispatchers.background) {
+            mutablePeopleState.value = withContext(dispatchers.background) {
                 peopleRepository.loadPeopleFor(userId)
             }
-            mutablePeopleState.value = result
         }
     }
 }
