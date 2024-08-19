@@ -7,7 +7,7 @@ import com.adriandeleon.friends.people.state.PeopleState
 class PeopleRepository(
     private val peopleCatalog: PeopleCatalog
 ) {
-    fun loadPeopleFor(userId: String): PeopleState {
+    suspend fun loadPeopleFor(userId: String): PeopleState {
         return try {
             val peopleForUserId = peopleCatalog.loadPeopleFor(userId)
             PeopleState.Loaded(peopleForUserId)
