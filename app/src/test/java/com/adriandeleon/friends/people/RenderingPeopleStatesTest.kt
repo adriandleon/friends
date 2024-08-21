@@ -6,6 +6,7 @@ import com.adriandeleon.friends.domain.people.InMemoryPeopleCatalog
 import com.adriandeleon.friends.domain.people.PeopleCatalog
 import com.adriandeleon.friends.domain.people.PeopleRepository
 import com.adriandeleon.friends.domain.user.Friend
+import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.infrastructure.builder.UserBuilder.Companion.aUser
 import com.adriandeleon.friends.people.state.PeopleState
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -21,7 +22,7 @@ class RenderingPeopleStatesTest {
         mapOf("jovId" to listOf(tom, anna))
     )
     private val viewModel = PeopleViewModel(
-        PeopleRepository(peopleCatalog),
+        PeopleRepository(peopleCatalog, InMemoryUserCatalog()),
         TestDispatchers()
     )
 

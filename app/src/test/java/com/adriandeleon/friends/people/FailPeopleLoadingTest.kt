@@ -7,6 +7,8 @@ import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.people.PeopleCatalog
 import com.adriandeleon.friends.domain.people.PeopleRepository
 import com.adriandeleon.friends.domain.user.Friend
+import com.adriandeleon.friends.domain.user.OfflineUserCatalog
+import com.adriandeleon.friends.domain.user.UnavailableUserCatalog
 import com.adriandeleon.friends.people.state.PeopleState
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -18,7 +20,7 @@ class FailPeopleLoadingTest {
     @Test
     fun `backend error`() {
         val viewModel = PeopleViewModel(
-            PeopleRepository(UnavailablePeopleCatalog()),
+            PeopleRepository(UnavailablePeopleCatalog(), UnavailableUserCatalog()),
             TestDispatchers()
         )
 
@@ -29,7 +31,10 @@ class FailPeopleLoadingTest {
 
     @Test
     fun `offline error`() {
-        val viewModel = PeopleViewModel(PeopleRepository(OfflinePeopleCatalog()), TestDispatchers())
+        val viewModel = PeopleViewModel(PeopleRepository(
+            OfflinePeopleCatalog(),
+            OfflineUserCatalog()
+        ), TestDispatchers())
 
         viewModel.loadPeople(":irrelevant:")
 

@@ -5,6 +5,7 @@ import com.adriandeleon.friends.app.TestDispatchers
 import com.adriandeleon.friends.domain.people.InMemoryPeopleCatalog
 import com.adriandeleon.friends.domain.people.PeopleRepository
 import com.adriandeleon.friends.domain.user.Friend
+import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.domain.user.User
 import com.adriandeleon.friends.people.state.PeopleState
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -31,7 +32,8 @@ class LoadPeopleTest {
 
     @Test
     fun `no people found`() {
-        val viewModel = PeopleViewModel(PeopleRepository(peopleCatalog), TestDispatchers())
+        val userCatalog = InMemoryUserCatalog()
+        val viewModel = PeopleViewModel(PeopleRepository(peopleCatalog, userCatalog), TestDispatchers())
 
         viewModel.loadPeople("saraId")
 
@@ -40,7 +42,7 @@ class LoadPeopleTest {
 
     @Test
     fun `loaded a single person`() {
-        val viewModel = PeopleViewModel(PeopleRepository(peopleCatalog), TestDispatchers())
+        val viewModel = PeopleViewModel(PeopleRepository(peopleCatalog, InMemoryUserCatalog()), TestDispatchers())
 
         viewModel.loadPeople("annaId")
 
@@ -49,7 +51,7 @@ class LoadPeopleTest {
 
     @Test
     fun `loaded multiple people`() {
-        val viewModel = PeopleViewModel(PeopleRepository(peopleCatalog), TestDispatchers())
+        val viewModel = PeopleViewModel(PeopleRepository(peopleCatalog, InMemoryUserCatalog()), TestDispatchers())
 
         viewModel.loadPeople("lucyId")
 
