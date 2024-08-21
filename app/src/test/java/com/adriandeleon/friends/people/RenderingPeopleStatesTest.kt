@@ -15,8 +15,8 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(InstantTaskExecutor::class)
 class RenderingPeopleStatesTest {
 
-    private val anna = Friend(aUser().withId("annaId").build(), isFollowee = true)
-    private val tom = Friend(aUser().withId("tomId").build(), isFollowee = true)
+    private val anna = Friend(aUser().withId("annaId").build(), isFollower = true)
+    private val tom = Friend(aUser().withId("tomId").build(), isFollower = true)
     private val peopleCatalog: PeopleCatalog = InMemoryPeopleCatalog(
         mapOf("jovId" to listOf(tom, anna))
     )
