@@ -19,7 +19,7 @@ sealed class Screen(val route: String) {
     ) : Screen(route) {
         data object Timeline : Main("timeline", R.string.timeline, R.drawable.ic_timeline)
 
-        data object People : Main("people", R.string.people, R.drawable.ic_people)
+        data object Friends : Main("friends", R.string.friends, R.drawable.ic_friends)
     }
 
     data object PostComposer : Screen("createNewPost")

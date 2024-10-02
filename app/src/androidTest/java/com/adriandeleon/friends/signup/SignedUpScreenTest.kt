@@ -2,6 +2,7 @@ package com.adriandeleon.friends.signup
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
+import com.adriandeleon.friends.domain.user.Friend
 import com.adriandeleon.friends.domain.user.InMemoryUserCatalog
 import com.adriandeleon.friends.domain.user.OfflineUserCatalog
 import com.adriandeleon.friends.domain.user.UnavailableUserCatalog
@@ -150,7 +151,11 @@ class SignedUpScreenTest {
             return User("someId", email, about)
         }
 
-        override fun followedBy(userId: String): List<String> {
+        override suspend fun followedBy(userId: String): List<String> {
+            return emptyList()
+        }
+
+        override suspend fun loadFriendsFor(userId: String): List<Friend> {
             return emptyList()
         }
     }

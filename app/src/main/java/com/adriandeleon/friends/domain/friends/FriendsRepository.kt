@@ -1,21 +1,21 @@
-package com.adriandeleon.friends.domain.people
+package com.adriandeleon.friends.domain.friends
 
 import com.adriandeleon.friends.domain.exceptions.BackendException
 import com.adriandeleon.friends.domain.exceptions.ConnectionUnavailableException
 import com.adriandeleon.friends.domain.user.UserCatalog
-import com.adriandeleon.friends.people.state.PeopleState
+import com.adriandeleon.friends.friends.state.FriendsState
 
-class PeopleRepository(
+class FriendsRepository(
     private val userCatalog: UserCatalog
 ) {
-    suspend fun loadPeopleFor(userId: String): PeopleState {
+    suspend fun loadFriendsFor(userId: String): FriendsState {
         return try {
-            val peopleForUser = userCatalog.loadPeopleFor(userId)
-            PeopleState.Loaded(peopleForUser)
+            val friendsForUser = userCatalog.loadFriendsFor(userId)
+            FriendsState.Loaded(friendsForUser)
         } catch (backendException: BackendException) {
-            PeopleState.BackendError
+            FriendsState.BackendError
         } catch (offlineException: ConnectionUnavailableException) {
-            PeopleState.Offline
+            FriendsState.Offline
         }
     }
 }

@@ -18,14 +18,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.adriandeleon.friends.navigation.Screen
-import com.adriandeleon.friends.people.PeopleScreen
+import com.adriandeleon.friends.friends.FriendsScreen
 import com.adriandeleon.friends.postcomposer.CreateNewPostScreen
 import com.adriandeleon.friends.timeline.TimelineScreen
 
 @Composable
 fun HomeScreen(userId: String) {
     val navigationController = rememberNavController()
-    val homeNavigationScreens = listOf(Screen.Main.Timeline, Screen.Main.People)
+    val homeNavigationScreens = listOf(Screen.Main.Timeline, Screen.Main.Friends)
     val currentDestination = currentDestination(navigationController = navigationController)
     val isMainDestination = homeNavigationScreens.any { it.route == currentDestination }
 
@@ -49,8 +49,8 @@ fun HomeScreen(userId: String) {
                     navigationController.navigateUp()
                 }
             }
-            composable(route = Screen.Main.People.route) {
-                PeopleScreen()
+            composable(route = Screen.Main.Friends.route) {
+                FriendsScreen()
             }
         }
     }

@@ -36,9 +36,9 @@ class TimelineRobot(
             .performClick()
     }
 
-    fun tapOpPeople() {
-        val people = rule.activity.getString(R.string.people)
-        rule.onNodeWithText(people)
+    fun tapOpFriends() {
+        val friends = rule.activity.getString(R.string.friends)
+        rule.onNodeWithText(friends)
             .performClick()
     }
 

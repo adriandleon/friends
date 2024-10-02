@@ -1,4 +1,4 @@
-package com.adriandeleon.friends.people
+package com.adriandeleon.friends.friends
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.adriandeleon.friends.MainActivity
@@ -6,18 +6,18 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
-class PeopleScreenTest {
+class FriendsScreenTest {
 
     @get:Rule
     val rule = createAndroidComposeRule<MainActivity>()
 
     @Ignore("Test incomplete")
     @Test
-    fun displaysPeople() {
-        launchPeopleFor("email@email.com", rule) {
-            tapOnPeople()
+    fun displaysFriendsScreen() {
+        launchFriendsFor("email@email.com", rule) {
+            tapOnFriends()
         } verify {
-            peopleScreenIsPresent()
+            friendsScreenIsPresent()
         }
     }
 }
