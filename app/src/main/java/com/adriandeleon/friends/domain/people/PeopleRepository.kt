@@ -6,7 +6,6 @@ import com.adriandeleon.friends.domain.user.UserCatalog
 import com.adriandeleon.friends.people.state.PeopleState
 
 class PeopleRepository(
-    private val peopleCatalog: PeopleCatalog,
     private val userCatalog: UserCatalog
 ) {
     suspend fun loadPeopleFor(userId: String): PeopleState {

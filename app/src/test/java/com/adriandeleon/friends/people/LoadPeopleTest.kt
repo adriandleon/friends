@@ -2,7 +2,6 @@ package com.adriandeleon.friends.people
 
 import com.adriandeleon.friends.InstantTaskExecutor
 import com.adriandeleon.friends.app.TestDispatchers
-import com.adriandeleon.friends.domain.people.InMemoryPeopleCatalog
 import com.adriandeleon.friends.domain.people.PeopleRepository
 import com.adriandeleon.friends.domain.user.Following
 import com.adriandeleon.friends.domain.user.Friend
@@ -24,19 +23,11 @@ class LoadPeopleTest {
     private val friendAnna = Friend(anna, isFollower = true)
     private val friendSara = Friend(sara, isFollower = false)
 
-    private val peopleCatalog = InMemoryPeopleCatalog(
-        mapOf(
-            anna.id to listOf(friendTom),
-            lucy.id to listOf(friendAnna, friendSara, friendTom),
-            sara.id to emptyList()
-        )
-    )
-
     @Test
     fun `no people found`() {
         val userCatalog = InMemoryUserCatalog()
         val viewModel = PeopleViewModel(
-            PeopleRepository(peopleCatalog, userCatalog), TestDispatchers()
+            PeopleRepository(userCatalog), TestDispatchers()
         )
 
         viewModel.loadPeople(sara.id)
@@ -50,7 +41,7 @@ class LoadPeopleTest {
             usersForPassword = mutableMapOf(":irrelevant:" to mutableListOf(tom))
         )
         val viewModel =
-            PeopleViewModel(PeopleRepository(peopleCatalog, userCatalog), TestDispatchers())
+            PeopleViewModel(PeopleRepository(userCatalog), TestDispatchers())
 
         viewModel.loadPeople(anna.id)
 
@@ -64,7 +55,7 @@ class LoadPeopleTest {
             followings = mutableListOf(Following(lucy.id, anna.id))
         )
         val viewModel = PeopleViewModel(
-            PeopleRepository(peopleCatalog, userCatalog), TestDispatchers()
+            PeopleRepository(userCatalog), TestDispatchers()
         )
 
         viewModel.loadPeople(lucy.id)
