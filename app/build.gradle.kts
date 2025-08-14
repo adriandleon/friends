@@ -41,6 +41,15 @@ android {
         compose = true
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            all {
+                it.useJUnitPlatform()
+            }
+        }
+    }
+
     packaging {
         resources {
             excludes += listOf("META-INF/AL2.0", "META-INF/LGPL2.1")
@@ -73,6 +82,8 @@ dependencies {
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.junit.jupiter.params)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.junit.platform.launcher)
+    testImplementation(libs.junit.platform.engine)
 
     testRuntimeOnly(libs.junit.jupiter.engine)
 }
