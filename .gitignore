@@ -26,3 +26,6 @@ captures/
 # Misc
 .externalNativeBuild
 .cxx
+
+# Kotlin 2.0
+.kotlin/
