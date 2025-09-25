@@ -14,8 +14,8 @@ sealed class Screen(val route: String) {
 
     sealed class Main(
         route: String,
-        @StringRes val title: Int,
-        @DrawableRes val icon: Int
+        @field:StringRes val title: Int,
+        @field:DrawableRes val icon: Int
     ) : Screen(route) {
         data object Timeline : Main("timeline", R.string.timeline, R.drawable.ic_timeline)
 
