@@ -86,7 +86,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v3
 
       - name: Run instrumentation tests in Firebase Test Lab
-        run: gcloud firebase test android run --type instrumentation --app ./artifacts/app-debug.apk --test ./artifacts/app-debug-androidTest.apk --device model=tokay,version=35
+        run: gcloud firebase test android run --type instrumentation --app ./artifacts/app-debug.apk --test ./artifacts/app-debug-androidTest.apk --device model=tokay,version=s35
 
   distribute:
     name: Distribute app bundle to Play Store
